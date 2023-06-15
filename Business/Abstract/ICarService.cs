@@ -1,5 +1,6 @@
 ﻿using Core.Business;
 using Entities.Concrete;
+using Entities.DTOs;
 
 namespace Business.Abstract
 {
@@ -7,5 +8,6 @@ namespace Business.Abstract
     {
         List<Car> GetCarsByBrandId(int brandId);
         List<Car> GetCarsByColorId(int colorId);
+        List<CarDetailDto> GetWithDetails();
     }
 }

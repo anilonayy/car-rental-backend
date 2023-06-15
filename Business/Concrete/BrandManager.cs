@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using DataAccess.Abstract;
 using Entities.Concrete;
 using System.Linq.Expressions;
 
@@ -6,29 +7,35 @@ namespace Business.Concrete
 {
     public class BrandManager : IBrandService
     {
+        private readonly IBrandDal _brandDal;
+
+        public BrandManager(IBrandDal brandDal)
+        {
+            _brandDal = brandDal;
+        }
         public void Create(Brand entity)
         {
-            throw new NotImplementedException();
+            _brandDal.Create(entity);
         }
 
         public void Delete(Brand entity)
         {
-            throw new NotImplementedException();
+            _brandDal.Delete(entity);
         }
 
         public Brand Get(Expression<Func<Brand, bool>> filter)
         {
-            throw new NotImplementedException();
+            return _brandDal.Get(filter);
         }
 
         public List<Brand> GetAll(Expression<Func<Brand, bool>> filter = null)
         {
-            throw new NotImplementedException();
+            return _brandDal.GetAll(filter);
         }
 
         public void Update(Brand entity)
         {
-            throw new NotImplementedException();
+            _brandDal.Update(entity);
         }
     }
 }

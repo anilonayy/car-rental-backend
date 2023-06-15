@@ -2,6 +2,7 @@
 using Core.DataAccess.EntityFramework;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
+using Entities.DTOs;
 
 namespace DataAccess.Abstract
 {
@@ -11,6 +12,6 @@ namespace DataAccess.Abstract
     // new()   : Can be newable
     public interface ICarDal : IEntityRepository<Car>
     {
-
+        List<CarDetailDto> GetWithDetails();
     }
 }

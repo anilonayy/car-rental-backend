@@ -9,22 +9,12 @@ namespace Core.DataAccess.EntityFramework
         where TContext : DbContext , new()
     {
         private readonly TContext _context;
-        private readonly DbSet<TEntity> _dbSet;
-
-        
-        public EfEntityRepsitoryBase()
-        {
-            using(TContext context = new TContext())
-            {
-                _dbSet = context.Set<TEntity>();
-            }
-        }
 
         public void Create(TEntity entity)
         {
             using(var context = new TContext())
             {
-                _dbSet.Add(entity);
+                context.Set<TEntity>().Add(entity);
                 context.SaveChanges();
 
             }
@@ -35,9 +25,8 @@ namespace Core.DataAccess.EntityFramework
         {
             using (var context = new TContext())
             {
-                _dbSet.Remove(entity);
+                context.Set<TEntity>().Remove(entity);
                 context.SaveChanges();
-
             }
         }
 
@@ -45,22 +34,29 @@ namespace Core.DataAccess.EntityFramework
         {
             using (var context = new TContext())
             {
-                _dbSet.Update(entity);
+                context.Set<TEntity>().Update(entity);
                 context.SaveChanges();
-
             }
         }
         public TEntity Get(Expression<Func<TEntity, bool>> filter)
         {
-                return _dbSet.SingleOrDefault(filter);
+            using (var context = new TContext())
+            {
+                return context.Set<TEntity>().SingleOrDefault(filter);
+            }
+           
            
         }
 
         public List<TEntity> GetAll(Expression<Func<TEntity,bool>> filter = null)
         {
-            return filter != null
-                ? _dbSet.Where(filter).ToList()
-                : _dbSet.ToList();
+            using(var context = new TContext())
+            {
+                return filter != null
+                ? context.Set<TEntity>().Where(filter).ToList()
+                : context.Set<TEntity>().ToList();
+            }
+            
         }
     }
 

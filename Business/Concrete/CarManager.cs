@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System.Linq.Expressions;
 
 namespace Business.Concrete
@@ -20,7 +21,7 @@ namespace Business.Concrete
                 return;
             }
 
-            else if (entity.DailyPrice > 0)
+            else if (entity.DailyPrice <= 0)
             {
                 Console.WriteLine("Araba günlük kiralama fiyatı 0 'dan büyük olmalıdır.");
                 return;
@@ -55,6 +56,11 @@ namespace Business.Concrete
         public List<Car> GetCarsByColorId(int colorId)
         {
             return _carDal.GetAll(c => c.ColorId == colorId);
+        }
+
+        public List<CarDetailDto> GetWithDetails()
+        {
+            return _carDal.GetWithDetails();
         }
 
         public void Update(Car entity)

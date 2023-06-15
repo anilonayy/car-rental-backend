@@ -1,39 +1,43 @@
 ﻿using Business.Abstract;
+using Core.Entities;
+using DataAccess.Abstract;
 using Entities.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
-    internal class ColorManager : IColorService
+    public class ColorManager : IColorService
     {
-        public void Create(Brand entity)
+        private readonly IColorDal _colorDal;
+
+        public ColorManager(IColorDal colorDal)
         {
-            throw new NotImplementedException();
+            _colorDal = colorDal;
         }
 
-        public void Delete(Brand entity)
+        public void Create(Color entity)
         {
-            throw new NotImplementedException();
+            _colorDal.Create(entity);
         }
 
-        public Brand Get(Expression<Func<Brand, bool>> filter)
+        public void Delete(Color entity)
         {
-            throw new NotImplementedException();
+            _colorDal.Delete(entity);
         }
 
-        public List<Brand> GetAll(Expression<Func<Brand, bool>> filter = null)
+        public Color Get(Expression<Func<Color, bool>> filter)
         {
-            throw new NotImplementedException();
+            return _colorDal.Get(filter);
         }
 
-        public void Update(Brand entity)
+        public List<Color> GetAll(Expression<Func<Color, bool>> filter = null)
         {
-            throw new NotImplementedException();
+            return _colorDal.GetAll(filter);
+        }
+
+        public void Update(Color entity)
+        {
+            _colorDal.Update(entity);
         }
     }
 }
