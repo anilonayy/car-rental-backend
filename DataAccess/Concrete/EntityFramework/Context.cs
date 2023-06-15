@@ -8,7 +8,7 @@ namespace DataAccess.Concrete.EntityFramework
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=ANIL\SQLEXPRESS;Database=ReCapProject;Trusted_Connection=true;TrustServerCertificate=true");
+            optionsBuilder.UseSqlServer(@"Server=ANIL\SQLEXPRESS;Database=car-rental-project;Trusted_Connection=true;TrustServerCertificate=true");
 
         }
 
