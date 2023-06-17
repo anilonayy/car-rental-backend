@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
-using Core.Entities;
+using Core.Utilities.Results.Abstract;
+using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System.Linq.Expressions;
@@ -25,14 +26,14 @@ namespace Business.Concrete
             _colorDal.Delete(entity);
         }
 
-        public Color Get(Expression<Func<Color, bool>> filter)
+        public IDataResult<Color> Get(Expression<Func<Color, bool>> filter)
         {
-            return _colorDal.Get(filter);
+            return new SuccessDataResult<Color>(_colorDal.Get(filter));
         }
 
-        public List<Color> GetAll(Expression<Func<Color, bool>> filter = null)
+        public IDataResult<List<Color>> GetAll(Expression<Func<Color, bool>> filter = null)
         {
-            return _colorDal.GetAll(filter);
+            return new SuccessDataResult<List<Color>>(_colorDal.GetAll(filter));
         }
 
         public void Update(Color entity)

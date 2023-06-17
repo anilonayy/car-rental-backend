@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Core.Utilities.Results.Abstract;
+using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -38,29 +40,29 @@ namespace Business.Concrete
             _carDal.Delete(entity);
         }
 
-        public Car Get(Expression<Func<Car, bool>> filter)
+        public IDataResult<Car> Get(Expression<Func<Car, bool>> filter)
         {
-            return _carDal.Get(filter);
+            return new SuccessDataResult<Car>(_carDal.Get(filter));
         }
 
-        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
+        public IDataResult<List<Car>> GetAll(Expression<Func<Car, bool>> filter = null)
         {
-            return _carDal.GetAll(filter);
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(filter));
         }
 
-        public List<Car> GetCarsByBrandId(int brandId)
+        public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
         {
-            return _carDal.GetAll(c => c.BrandId == brandId);
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == brandId));
         }
 
-        public List<Car> GetCarsByColorId(int colorId)
+        public IDataResult<List<Car>> GetCarsByColorId(int colorId)
         {
-            return _carDal.GetAll(c => c.ColorId == colorId);
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == colorId));
         }
 
-        public List<CarDetailDto> GetWithDetails()
+        public IDataResult<List<CarDetailDto>> GetWithDetails()
         {
-            return _carDal.GetWithDetails();
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetWithDetails());
         }
 
         public void Update(Car entity)
