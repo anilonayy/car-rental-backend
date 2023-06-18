@@ -1,4 +1,5 @@
-﻿using Core.Utilities.Results.Abstract;
+﻿using Core.Entities;
+using Core.Utilities.Results.Abstract;
 using System.Linq.Expressions;
 
 namespace Core.Business

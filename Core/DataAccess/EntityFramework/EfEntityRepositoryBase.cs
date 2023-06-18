@@ -6,13 +6,13 @@ namespace Core.DataAccess.EntityFramework
 {
     public class EfEntityRepsitoryBase<TEntity, TContext> : IEntityRepository<TEntity>
         where TEntity : class, IEntity, new()
-        where TContext : DbContext, new()
+        where TContext : DbContext , new()
     {
         private readonly TContext _context;
 
         public void Create(TEntity entity)
         {
-            using (var context = new TContext())
+            using(var context = new TContext())
             {
                 context.Set<TEntity>().Add(entity);
                 context.SaveChanges();
@@ -44,19 +44,19 @@ namespace Core.DataAccess.EntityFramework
             {
                 return context.Set<TEntity>().SingleOrDefault(filter);
             }
-
-
+           
+           
         }
 
-        public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
+        public List<TEntity> GetAll(Expression<Func<TEntity,bool>> filter = null)
         {
-            using (var context = new TContext())
+            using(var context = new TContext())
             {
                 return filter != null
                 ? context.Set<TEntity>().Where(filter).ToList()
                 : context.Set<TEntity>().ToList();
             }
-
+            
         }
     }
 

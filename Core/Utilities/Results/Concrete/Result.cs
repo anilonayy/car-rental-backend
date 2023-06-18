@@ -4,11 +4,11 @@ namespace Core.Utilities.Results.Concrete
 {
     public class Result : IResult
     {
-        public Result(bool _isSuccess, string _message) : this(_isSuccess)
+        public Result(bool _isSuccess,string _message) : this(_isSuccess)
         {
             Message = _message;
         }
-        public Result(bool _isSuccess)
+        public Result(bool _isSuccess) 
         {
             isSuccess = _isSuccess;
 

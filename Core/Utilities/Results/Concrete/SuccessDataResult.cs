@@ -6,7 +6,7 @@
         {
         }
 
-        public SuccessDataResult(T _data, string _message) : base(_data, true, _message)
+        public SuccessDataResult(T _data ,string _message) : base(_data, true, _message)
         {
         }
     }
