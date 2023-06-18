@@ -2,7 +2,7 @@
 {
     public class SuccessResult : Result
     {
-       
+
         public SuccessResult(string _message) : base(true, _message)
         {
         }

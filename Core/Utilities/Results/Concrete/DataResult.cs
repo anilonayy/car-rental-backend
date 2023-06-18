@@ -2,7 +2,7 @@
 
 namespace Core.Utilities.Results.Concrete
 {
-    public class DataResult<T> : Result,IDataResult<T>
+    public class DataResult<T> : Result, IDataResult<T>
     {
         public T Data { get; }
 
@@ -10,7 +10,7 @@ namespace Core.Utilities.Results.Concrete
         {
             Data = _data;
         }
-        public DataResult(T _data,bool _isSuccess) :base(_isSuccess)
+        public DataResult(T _data, bool _isSuccess) : base(_isSuccess)
         {
             Data = _data;
         }
