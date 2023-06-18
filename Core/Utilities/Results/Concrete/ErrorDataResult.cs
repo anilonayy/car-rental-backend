@@ -6,7 +6,7 @@
         {
         }
 
-        public ErrorDataResult(T _data,string _message) : base(_data, false, _message)
+        public ErrorDataResult(T _data, string _message) : base(_data, false, _message)
         {
         }
     }

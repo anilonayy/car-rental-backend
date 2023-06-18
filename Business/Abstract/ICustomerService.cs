@@ -3,7 +3,7 @@ using Entities.Concrete;
 
 namespace Business.Abstract
 {
-    public interface IColorService : IGenericService<Color>
+    public interface ICustomerService : IGenericService<Customer>
     {
 
     }

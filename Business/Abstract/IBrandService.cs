@@ -5,6 +5,6 @@ namespace Business.Abstract
 {
     public interface IBrandService : IGenericService<Brand>
     {
-        
+
     }
 }
