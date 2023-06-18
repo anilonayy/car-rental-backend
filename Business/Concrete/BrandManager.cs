@@ -15,19 +15,22 @@ namespace Business.Concrete
         {
             _brandDal = brandDal;
         }
-        public void Create(Brand entity)
+        public IDataResult<Brand> Create(Brand entity)
         {
             _brandDal.Create(entity);
+
+            return new SuccessDataResult<Brand>(entity);
         }
 
-        public void Delete(Brand entity)
+        public IResult Delete(Brand entity)
         {
             _brandDal.Delete(entity);
+            return new SuccessResult();
         }
 
-        public IDataResult<Brand> Get(Expression<Func<Brand, bool>> filter)
+        public IDataResult<Brand> GetById(int id)
         {
-            return new SuccessDataResult<Brand>(_brandDal.Get(filter));
+            return new SuccessDataResult<Brand>(_brandDal.Get(b => b.BrandId==id));
         }
 
         public IDataResult<List<Brand>> GetAll(Expression<Func<Brand, bool>> filter = null)
@@ -35,9 +38,10 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(filter));
         }
 
-        public void Update(Brand entity)
+        public IResult Update(Brand entity)
         {
             _brandDal.Update(entity);
+            return new SuccessResult();
         }
     }
 }

@@ -15,34 +15,33 @@ namespace Business.Concrete
         {
             _carDal = carDal;
         }
-        public void Create(Car entity)
+        public IDataResult<Car> Create(Car entity)
         {
             if (entity.Description.Length < 2)
             {
-                Console.WriteLine("Araba adı en az 2 karakter olmalıdır.");
-                return;
+                return new ErrorDataResult<Car>(default, "Araba adı en az 2 karakter olmalıdır.");
             }
 
             else if (entity.DailyPrice <= 0)
             {
-                Console.WriteLine("Araba günlük kiralama fiyatı 0 'dan büyük olmalıdır.");
-                return;
+                return new ErrorDataResult<Car>(default, "Araba günlük kiralama fiyatı 0 'dan büyük olmalıdır.");
             }
             else
             {
                 _carDal.Create(entity);
-                Console.WriteLine("Araba başarıyla eklendi!");
+                return new SuccessDataResult<Car>(entity,"Araç Başarıyla Eklendi.");
             }
         }
 
-        public void Delete(Car entity)
+        public IResult Delete(Car entity)
         {
             _carDal.Delete(entity);
+            return new SuccessResult();
         }
 
-        public IDataResult<Car> Get(Expression<Func<Car, bool>> filter)
+        public IDataResult<Car> GetById(int id)
         {
-            return new SuccessDataResult<Car>(_carDal.Get(filter));
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.Id==id));
         }
 
         public IDataResult<List<Car>> GetAll(Expression<Func<Car, bool>> filter = null)
@@ -65,9 +64,11 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetWithDetails());
         }
 
-        public void Update(Car entity)
+        public IResult Update(Car entity)
         {
             _carDal.Update(entity);
+
+            return new SuccessResult();
         }
     }
 }

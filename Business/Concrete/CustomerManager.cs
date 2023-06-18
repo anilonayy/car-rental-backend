@@ -16,19 +16,22 @@ namespace Business.Concrete
             _customerDal = customerDal;
         }
 
-        public void Create(Customer entity)
+        public IDataResult<Customer> Create(Customer entity)
         {
             _customerDal.Create(entity);
+
+            return new SuccessDataResult<Customer>(entity);
         }
 
-        public void Delete(Customer entity)
+        public IResult Delete(Customer entity)
         {
             _customerDal.Delete(entity);
+            return new SuccessResult();
         }
 
-        public IDataResult<Customer> Get(Expression<Func<Customer, bool>> filter)
+        public IDataResult<Customer> GetById(int id )
         {
-            return new SuccessDataResult<Customer>(_customerDal.Get(filter));
+            return new SuccessDataResult<Customer>(_customerDal.Get(c => c.Id==id));
         }
 
         public IDataResult<List<Customer>> GetAll(Expression<Func<Customer, bool>> filter = null)
@@ -36,9 +39,10 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(filter));
         }
 
-        public void Update(Customer entity)
+        public IResult Update(Customer entity)
         {
             _customerDal.Update(entity);
+            return new SuccessResult();
         }
     }
 }
