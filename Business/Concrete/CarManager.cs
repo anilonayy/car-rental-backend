@@ -33,9 +33,9 @@ namespace Business.Concrete
             }
         }
 
-        public IResult Delete(Car entity)
+        public IResult Delete(int id)
         {
-            _carDal.Delete(entity);
+            _carDal.Delete( _carDal.Get(c => c.Id==id ));
             return new SuccessResult();
         }
 

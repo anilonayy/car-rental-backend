@@ -23,9 +23,9 @@ namespace Business.Concrete
             return new SuccessDataResult<Customer>(entity);
         }
 
-        public IResult Delete(Customer entity)
+        public IResult Delete(int id)
         {
-            _customerDal.Delete(entity);
+            _customerDal.Delete( _customerDal.Get(c => c.Id==id));
             return new SuccessResult();
         }
 

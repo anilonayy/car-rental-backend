@@ -22,9 +22,9 @@ namespace Business.Concrete
             return new SuccessDataResult<Brand>(entity);
         }
 
-        public IResult Delete(Brand entity)
+        public IResult Delete(int id)
         {
-            _brandDal.Delete(entity);
+            _brandDal.Delete(_brandDal.Get(b => b.BrandId==id));
             return new SuccessResult();
         }
 

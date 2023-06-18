@@ -1,25 +1,24 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class BrandsController : ControllerBase
     {
-        readonly IUserService _userService;
+        readonly IBrandService _brandService;
 
-        public UsersController(IUserService userService)
+        public BrandsController(IBrandService BrandService)
         {
-            _userService = userService;
+            _brandService = BrandService;
         }
 
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
-            var result = _userService.GetAll();
+            var result = _brandService.GetAll();
 
             if (result.isSuccess)
                 return Ok(result);
@@ -30,7 +29,7 @@ namespace WebAPI.Controllers
         [HttpGet("GetById")]
         public IActionResult GetById(int id)
         {
-            var result = _userService.GetById(id);
+            var result = _brandService.GetById(id);
 
             if (result.isSuccess)
                 return Ok(result);
@@ -39,9 +38,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("Add")]
-        public IActionResult Add(User user)
+        public IActionResult Add(Brand Brand)
         {
-            var result = _userService.Create(user);
+            var result = _brandService.Create(Brand);
 
             if (result.isSuccess)
                 return Ok(result);
@@ -50,9 +49,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("Update")]
-        public IActionResult Update(User user)
+        public IActionResult Update(Brand Brand)
         {
-            var result = _userService.Update(user);
+            var result = _brandService.Update(Brand);
 
             if (result.isSuccess)
                 return Ok(result);
@@ -63,7 +62,7 @@ namespace WebAPI.Controllers
         [HttpDelete("Delete")]
         public IActionResult Delete(int id)
         {
-            var result = _userService.Delete(id);
+            var result = _brandService.Delete(id);
 
             if (result.isSuccess)
                 return Ok(result);

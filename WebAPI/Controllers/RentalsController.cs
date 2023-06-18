@@ -7,19 +7,19 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class RentalsController : ControllerBase
     {
-        readonly IUserService _userService;
+        readonly IRentalService _rentalService;
 
-        public UsersController(IUserService userService)
+        public RentalsController(IRentalService RentalService)
         {
-            _userService = userService;
+            _rentalService = RentalService;
         }
 
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
-            var result = _userService.GetAll();
+            var result = _rentalService.GetAll();
 
             if (result.isSuccess)
                 return Ok(result);
@@ -30,7 +30,7 @@ namespace WebAPI.Controllers
         [HttpGet("GetById")]
         public IActionResult GetById(int id)
         {
-            var result = _userService.GetById(id);
+            var result = _rentalService.GetById(id);
 
             if (result.isSuccess)
                 return Ok(result);
@@ -39,9 +39,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("Add")]
-        public IActionResult Add(User user)
+        public IActionResult Add(Rental Rental)
         {
-            var result = _userService.Create(user);
+            var result = _rentalService.Create(Rental);
 
             if (result.isSuccess)
                 return Ok(result);
@@ -50,9 +50,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("Update")]
-        public IActionResult Update(User user)
+        public IActionResult Update(Rental Rental)
         {
-            var result = _userService.Update(user);
+            var result = _rentalService.Update(Rental);
 
             if (result.isSuccess)
                 return Ok(result);
@@ -63,7 +63,7 @@ namespace WebAPI.Controllers
         [HttpDelete("Delete")]
         public IActionResult Delete(int id)
         {
-            var result = _userService.Delete(id);
+            var result = _rentalService.Delete(id);
 
             if (result.isSuccess)
                 return Ok(result);

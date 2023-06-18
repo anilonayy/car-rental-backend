@@ -23,14 +23,14 @@ namespace Business.Concrete
             return new SuccessDataResult<Color>(entity);
         }
 
-        public IResult Delete(Color entity)
+        public IResult Delete(int id)
         {
-            _colorDal.Delete(entity);
+            _colorDal.Delete( _colorDal.Get(c => c.ColorId==id));
 
             return new SuccessResult();
         }
 
-        public IDataResult<Color> Get(int id)
+        public IDataResult<Color> GetById(int id)
         {
             return new SuccessDataResult<Color>(_colorDal.Get(c => c.ColorId==id));
         }

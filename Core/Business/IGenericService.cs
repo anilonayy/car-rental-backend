@@ -10,6 +10,6 @@ namespace Core.Business
         IDataResult<TEntity> GetById(int id);
         IDataResult<TEntity> Create(TEntity entity);
         IResult Update(TEntity entity);
-        IResult Delete(TEntity entity);
+        IResult Delete(int id);
     }
 }

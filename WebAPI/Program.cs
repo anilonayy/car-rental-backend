@@ -18,7 +18,7 @@ builder.Services.AddScoped<IBrandDal , EfBrandDal>();
 builder.Services.AddScoped<IColorDal , EfColorDal>();
 builder.Services.AddScoped<ICustomerDal , EfCustomerDal>();
 builder.Services.AddScoped<IRentalDal , EfRentalDal>();
-builder.Services.AddScoped<IUserDal , EfUserDal>();
+builder.Services.AddScoped<ICarDal , EfCarDal>();
 
 
 builder.Services.AddScoped<IUserService, UserManager>();
@@ -26,7 +26,7 @@ builder.Services.AddScoped<IBrandService, BrandManager>();
 builder.Services.AddScoped<IColorService, ColorManager>();
 builder.Services.AddScoped<ICustomerService, CustomerManager>();
 builder.Services.AddScoped<IRentalService, RentalManager>();
-builder.Services.AddScoped<IUserService, UserManager>();
+builder.Services.AddScoped<ICarService, CarManager>();
 
 
 var app = builder.Build();

@@ -22,9 +22,9 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(entity);
         }
 
-        public IResult Delete(User entity)
+        public IResult Delete(int id)
         {
-            _userDal.Delete(entity);
+            _userDal.Delete( _userDal.Get(u => u.Id ==id) );
             return new SuccessResult();
         }
 

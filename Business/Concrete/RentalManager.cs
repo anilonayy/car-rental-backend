@@ -10,12 +10,10 @@ namespace Business.Concrete
     public class RentalManager : IRentalService
     {
         readonly IRentalDal _rentalDal;
-        readonly ICarDal _carDal;
 
-        public RentalManager(IRentalDal rentalDal,ICarDal carDal)
+        public RentalManager(IRentalDal rentalDal)
         {
             _rentalDal = rentalDal;
-            _carDal = carDal;
         }
 
         public IDataResult<Rental> Create(Rental entity)
@@ -35,9 +33,9 @@ namespace Business.Concrete
 
         }
 
-        public IResult Delete(Rental entity)
+        public IResult Delete(int id)
         {
-            _rentalDal.Delete(entity);
+            _rentalDal.Delete( _rentalDal.Get(r => r.Id==id));
             return new SuccessResult();
         }
 
