@@ -9,10 +9,10 @@ namespace DataAccess.Concrete.EntityFramework
     {
         public List<CarDetailDto> GetWithDetails()
         {
-            using(var context =new Context())
+            using (var context = new Context())
             {
                 var results = from cars in context.Cars
-                              
+
                               join colors in context.Colors
                               on cars.ColorId equals colors.ColorId
 
@@ -27,7 +27,7 @@ namespace DataAccess.Concrete.EntityFramework
                               };
 
                 return results.ToList();
-                              
+
             }
         }
     }
