@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
@@ -14,23 +16,16 @@ namespace Business.Concrete
         public CarManager(ICarDal carDal)
         {
             _carDal = carDal;
+
+
         }
+        [ValidationAspect(typeof(CarValidator))]
         public IDataResult<Car> Create(Car entity)
         {
-            if (entity.Description.Length < 2)
-            {
-                return new ErrorDataResult<Car>(default, "Araba adı en az 2 karakter olmalıdır.");
-            }
-
-            else if (entity.DailyPrice <= 0)
-            {
-                return new ErrorDataResult<Car>(default, "Araba günlük kiralama fiyatı 0 'dan büyük olmalıdır.");
-            }
-            else
-            {
+            
                 _carDal.Create(entity);
                 return new SuccessDataResult<Car>(entity,"Araç Başarıyla Eklendi.");
-            }
+          
         }
 
         public IResult Delete(int id)
