@@ -3,10 +3,10 @@
     public class SuccessResult : Result
     {
 
-        public SuccessResult(string _message) : base(true, _message)
+        public SuccessResult(int statusCode,string _message) : base(statusCode,true, _message)
         {
         }
-        public SuccessResult() : base(true)
+        public SuccessResult(int statusCode) : base(statusCode,true)
         {
         }
 

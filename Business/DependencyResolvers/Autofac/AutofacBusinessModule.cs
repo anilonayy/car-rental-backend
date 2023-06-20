@@ -1,10 +1,7 @@
 ﻿using Autofac;
 using Autofac.Extras.DynamicProxy;
-using Business.Abstract;
-using Business.Concrete;
 using Castle.DynamicProxy;
 using Core.Utilities.Intercreptors;
-using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using System.Reflection;
 using Module = Autofac.Module;

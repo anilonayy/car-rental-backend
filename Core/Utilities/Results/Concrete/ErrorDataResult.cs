@@ -2,11 +2,11 @@
 {
     public class ErrorDataResult<T> : DataResult<T>
     {
-        public ErrorDataResult(T _data) : base(_data, false)
+        public ErrorDataResult(int statusCode,T _data) : base(statusCode,_data, false)
         {
         }
 
-        public ErrorDataResult(T _data, string _message) : base(_data, false, _message)
+        public ErrorDataResult(int statusCode,T _data, string _message) : base(statusCode,_data, false, _message)
         {
         }
     }

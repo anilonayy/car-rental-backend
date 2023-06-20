@@ -6,11 +6,11 @@ namespace Core.Utilities.Results.Concrete
     {
         public T Data { get; }
 
-        public DataResult(T _data, bool _isSuccess, string _message) : base(_isSuccess, _message)
+        public DataResult(int statusCode,T _data, bool _isSuccess, string _message) : base(statusCode,_isSuccess, _message)
         {
             Data = _data;
         }
-        public DataResult(T _data, bool _isSuccess) : base(_isSuccess)
+        public DataResult(int statusCode, T _data, bool _isSuccess) : base(statusCode,_isSuccess)
         {
             Data = _data;
         }

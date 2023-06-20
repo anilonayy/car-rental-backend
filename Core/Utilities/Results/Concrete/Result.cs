@@ -4,17 +4,20 @@ namespace Core.Utilities.Results.Concrete
 {
     public class Result : IResult
     {
-        public Result(bool _isSuccess, string _message) : this(_isSuccess)
+        public Result(int statuscode,bool isSuccess, string messages) : this(statuscode, isSuccess)
         {
-            Message = _message;
+            Messages.Add(messages);
         }
-        public Result(bool _isSuccess)
+        public Result(int statuscode, bool _isSuccess)
         {
-            isSuccess = _isSuccess;
+            IsSuccess = _isSuccess;
+            StatusCode = statuscode;
 
         }
-        public bool isSuccess { get; }
+        public bool IsSuccess { get; }
 
-        public string Message { get; }
+        public List<string> Messages { get; }
+        public int StatusCode { get; }
+
     }
 }
