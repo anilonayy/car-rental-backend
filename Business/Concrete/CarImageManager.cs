@@ -1,8 +1,11 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Business;
 using Core.Utilities.FileTools;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Entities.DTOs.CarImageDTOs;
 using Microsoft.AspNetCore.Http;
 using System.Linq.Expressions;
@@ -20,21 +23,29 @@ namespace Business.Concrete
 
         public async Task<ICustomResult<CarImage>> CreateAsync(CarImageAddDto dto)
         {
+            var ruleResult = BusinessRules.Run(IsMaximumPhotoCount(dto.CarId));
 
-            var result = await FileOperations.UploadAsync(dto.ImageFile, "uploads/car-images/");
-
-            var entity = new CarImage
+            if(ruleResult != null)
             {
-                CarId = dto.CarId,
-                ImagePath = result,
-                Date = DateTime.Now,
-                Id = dto.Id
-            };
+                return ruleResult;
+            }
+            else
+            {
+                var result = await FileOperations.UploadAsync(dto.ImageFile, "uploads/car-images/");
+
+                var entity = new CarImage
+                {
+                    CarId = dto.CarId,
+                    ImagePath = result,
+                    Date = DateTime.Now,
+                    Id = dto.Id
+                };
 
 
-            _carImageDal.Create(entity);
+                _carImageDal.Create(entity);
 
-            return new SuccessResult<CarImage>(201,entity);
+                return new SuccessResult<CarImage>(201, entity);
+            }
         }
         
 
@@ -55,10 +66,21 @@ namespace Business.Concrete
 
         public ICustomResult<CarImage> GetById(int id)
         {
-            throw new NotImplementedException();
+            return new SuccessResult<CarImage>(200,_carImageDal.Get(c => c.Id == id));
         }
 
-   
+        public async Task<ICustomResult<List<CarImage>>> GetImagesByCarId(int carId)
+        {
+            var images = _carImageDal.GetAll(c => c.CarId == carId);
+
+            if(images.Count==0)
+            {
+                images.Add(new CarImage { ImagePath ="LOGO PATH"});
+            }
+         
+           
+            return new SuccessResult<List<CarImage>>(200, images);
+        }
 
         public async Task<ICustomResult<CarImage>> UpdateAsync(CarImageUpdateDto dto)
         {
@@ -75,6 +97,18 @@ namespace Business.Concrete
         
 
             return new SuccessResult<CarImage>(200, target);
+        }
+
+
+        private ICustomResult<CarImage> IsMaximumPhotoCount(int carId)
+        {
+            var result = _carImageDal.GetAll(x => x.CarId == carId).Count >= 5;
+
+            if(result)
+            {
+                return new ErrorResult<CarImage>(400,Messages.CarImageMaximumLengthError);
+            }
+            return new SuccessResult<CarImage>(200);
         }
     }
 }

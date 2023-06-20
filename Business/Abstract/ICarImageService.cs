@@ -13,5 +13,6 @@ namespace Business.Abstract
         Task<ICustomResult<CarImage>> CreateAsync(CarImageAddDto entity);
         Task<ICustomResult<CarImage>> Delete(int id);
         Task<ICustomResult<CarImage>> UpdateAsync(CarImageUpdateDto dto);
+        Task<ICustomResult<List<CarImage>>> GetImagesByCarId(int carId);
     }
 }

@@ -19,7 +19,7 @@ namespace Core.Utilities.Results
 
         public bool isSuccess { get; }
 
-        public List<string> Errors { get; set; }
+        public List<string> Errors { get; set; } = new List<string>();
 
         [JsonIgnore]
         public int StatusCode { get; }

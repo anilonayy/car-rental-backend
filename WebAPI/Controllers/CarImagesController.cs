@@ -49,6 +49,13 @@ namespace WebAPI.Controllers
             return CreateResponse(result);
         }
 
-      
+        [HttpGet("GetImagesByCarId")]
+        public async Task<IActionResult> GetImagesByCarId(int carId)
+        {
+            var result = await _CarImageService.GetImagesByCarId(carId);
+            return CreateResponse(result);
+        }
+
+
     }
 }
