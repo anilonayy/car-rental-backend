@@ -1,15 +1,14 @@
-﻿using Core.Utilities.Results.Abstract;
-using Core.Utilities.Results.Concrete;
+﻿using Core.Utilities.Results;
 using System.Linq.Expressions;
 
 namespace Core.Business
 {
-    public interface IGenericService<TEntity> where TEntity : class
+    public interface IGenericService<TEntity> where TEntity : class,new()
     {
-        IDataResult<List<TEntity>> GetAll(Expression<Func<TEntity, bool>> filter = null);
-        IDataResult<TEntity> GetById(int id);
-        IDataResult<TEntity> Create(TEntity entity);
-        IResult Update(TEntity entity);
-        IResult Delete(int id);
+        ICustomResult<List<TEntity>> GetAll(Expression<Func<TEntity, bool>> filter = null);
+        ICustomResult<TEntity> GetById(int id);
+        ICustomResult<TEntity> Create(TEntity entity);
+        ICustomResult<TEntity> Update(TEntity entity);
+        ICustomResult<TEntity> Delete(int id);
     }
 }

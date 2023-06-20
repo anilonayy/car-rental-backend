@@ -4,9 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class BrandsController : ControllerBase
+  
+    public class BrandsController : CustomControllerBase
     {
         readonly IBrandService _brandService;
 
@@ -19,22 +18,14 @@ namespace WebAPI.Controllers
         public IActionResult GetAll()
         {
             var result = _brandService.GetAll();
-
-            if (result.isSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse(result);
         }
 
         [HttpGet("GetById")]
         public IActionResult GetById(int id)
         {
             var result = _brandService.GetById(id);
-
-            if (result.isSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse(result);
         }
 
         [HttpPost("Add")]
@@ -42,32 +33,21 @@ namespace WebAPI.Controllers
         {
             var result = _brandService.Create(Brand);
 
-            if (result.isSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse(result);
         }
 
         [HttpPut("Update")]
         public IActionResult Update(Brand Brand)
         {
             var result = _brandService.Update(Brand);
-
-            if (result.isSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse(result);
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(int id)
         {
             var result = _brandService.Delete(id);
-
-            if (result.isSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse<Brand>(result);
         }
     }
 }

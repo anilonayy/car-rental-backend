@@ -5,9 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class RentalsController : ControllerBase
+    
+    public class RentalsController : CustomControllerBase
     {
         readonly IRentalService _rentalService;
 
@@ -20,55 +19,35 @@ namespace WebAPI.Controllers
         public IActionResult GetAll()
         {
             var result = _rentalService.GetAll();
-
-            if (result.isSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse(result);
         }
 
         [HttpGet("GetById")]
         public IActionResult GetById(int id)
         {
             var result = _rentalService.GetById(id);
-
-            if (result.isSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse(result);
         }
 
         [HttpPost("Add")]
         public IActionResult Add(Rental Rental)
         {
             var result = _rentalService.Create(Rental);
-
-            if (result.isSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse(result);
         }
 
         [HttpPut("Update")]
         public IActionResult Update(Rental Rental)
         {
             var result = _rentalService.Update(Rental);
-
-            if (result.isSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse(result);
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(int id)
         {
             var result = _rentalService.Delete(id);
-
-            if (result.isSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse(result);
         }
     }
 }

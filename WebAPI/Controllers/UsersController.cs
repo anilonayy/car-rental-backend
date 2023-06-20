@@ -5,9 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UsersController : ControllerBase
+  
+    public class UsersController : CustomControllerBase
     {
         readonly IUserService _userService;
 
@@ -21,54 +20,35 @@ namespace WebAPI.Controllers
         {
             var result = _userService.GetAll();
 
-            if (result.isSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse(result);
         }
 
         [HttpGet("GetById")]
         public IActionResult GetById(int id)
         {
             var result = _userService.GetById(id);
-
-            if (result.isSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse(result);
         }
 
         [HttpPost("Add")]
         public IActionResult Add(User user)
         {
             var result = _userService.Create(user);
-
-            if (result.isSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse(result);
         }
 
         [HttpPut("Update")]
         public IActionResult Update(User user)
         {
             var result = _userService.Update(user);
-
-            if (result.isSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse(result);
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(int id)
         {
             var result = _userService.Delete(id);
-
-            if (result.isSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse(result);
         }
     }
 }

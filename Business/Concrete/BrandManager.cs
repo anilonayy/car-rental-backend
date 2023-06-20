@@ -1,6 +1,5 @@
 ﻿using Business.Abstract;
-using Core.Utilities.Results.Abstract;
-using Core.Utilities.Results.Concrete;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System.Linq.Expressions;
@@ -15,33 +14,33 @@ namespace Business.Concrete
         {
             _brandDal = brandDal;
         }
-        public IDataResult<Brand> Create(Brand entity)
+        public ICustomResult<Brand> Create(Brand entity)
         {
             _brandDal.Create(entity);
 
-            return new SuccessDataResult<Brand>(entity);
+            return new SuccessResult<Brand>(201, entity);
         }
 
-        public IResult Delete(int id)
+        public ICustomResult<Brand> Delete(int id)
         {
             _brandDal.Delete(_brandDal.Get(b => b.BrandId==id));
-            return new SuccessResult();
+            return new SuccessResult<Brand>(204);
         }
 
-        public IDataResult<Brand> GetById(int id)
+        public ICustomResult<Brand> GetById(int id)
         {
-            return new SuccessDataResult<Brand>(_brandDal.Get(b => b.BrandId==id));
+            return new SuccessResult<Brand>(200,_brandDal.Get(b => b.BrandId==id));
         }
 
-        public IDataResult<List<Brand>> GetAll(Expression<Func<Brand, bool>> filter = null)
+        public ICustomResult<List<Brand>> GetAll(Expression<Func<Brand, bool>> filter = null)
         {
-            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(filter));
+            return new SuccessResult<List<Brand>>(200,_brandDal.GetAll(filter));
         }
 
-        public IResult Update(Brand entity)
+        public ICustomResult<Brand> Update(Brand entity)
         {
             _brandDal.Update(entity);
-            return new SuccessResult();
+            return new SuccessResult<Brand>(200,entity);
         }
     }
 }

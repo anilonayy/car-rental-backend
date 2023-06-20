@@ -1,6 +1,5 @@
 ﻿using Business.Abstract;
-using Core.Utilities.Results.Abstract;
-using Core.Utilities.Results.Concrete;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System.Linq.Expressions;
@@ -16,33 +15,33 @@ namespace Business.Concrete
             _customerDal = customerDal;
         }
 
-        public IDataResult<Customer> Create(Customer entity)
+        public ICustomResult<Customer> Create(Customer entity)
         {
             _customerDal.Create(entity);
 
-            return new SuccessDataResult<Customer>(entity);
+            return new SuccessResult<Customer>(201,entity);
         }
 
-        public IResult Delete(int id)
+        public ICustomResult<Customer> Delete(int id)
         {
             _customerDal.Delete( _customerDal.Get(c => c.Id==id));
-            return new SuccessResult();
+            return new SuccessResult<Customer>(204);
         }
 
-        public IDataResult<Customer> GetById(int id )
+        public ICustomResult<Customer> GetById(int id )
         {
-            return new SuccessDataResult<Customer>(_customerDal.Get(c => c.Id==id));
+            return new SuccessResult<Customer>(200,_customerDal.Get(c => c.Id==id));
         }
 
-        public IDataResult<List<Customer>> GetAll(Expression<Func<Customer, bool>> filter = null)
+        public ICustomResult<List<Customer>> GetAll(Expression<Func<Customer, bool>> filter = null)
         {
-            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(filter));
+            return new SuccessResult<List<Customer>>(200,_customerDal.GetAll(filter));
         }
 
-        public IResult Update(Customer entity)
+        public ICustomResult<Customer> Update(Customer entity)
         {
             _customerDal.Update(entity);
-            return new SuccessResult();
+            return new SuccessResult<Customer>(200,entity);
         }
     }
 }

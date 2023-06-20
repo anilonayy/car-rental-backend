@@ -1,6 +1,5 @@
 ﻿using Business.Abstract;
-using Core.Utilities.Results.Abstract;
-using Core.Utilities.Results.Concrete;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System.Linq.Expressions;
@@ -16,43 +15,43 @@ namespace Business.Concrete
             _rentalDal = rentalDal;
         }
 
-        public IDataResult<Rental> Create(Rental entity)
+        public ICustomResult<Rental> Create(Rental entity)
         {
             var isCarAvailable = _rentalDal.Get(r => r.CarId == entity.CarId && r.ReturnDate == null);
 
 
             // If car is not available right now
             if(isCarAvailable != null)
-                return new ErrorDataResult<Rental>(default, "Car is not available for rental right now.");
+                return new ErrorResult<Rental>(400,"Car is not available right now.");
             
 
 
 
             _rentalDal.Create(entity);
-            return new SuccessDataResult<Rental>(entity);
+            return new SuccessResult<Rental>(201,entity);
 
         }
 
-        public IResult Delete(int id)
+        public ICustomResult<Rental> Delete(int id)
         {
             _rentalDal.Delete( _rentalDal.Get(r => r.Id==id));
-            return new SuccessResult();
+            return new SuccessResult<Rental>(204);
         }
 
-        public IDataResult<Rental> GetById(int id)
+        public ICustomResult<Rental> GetById(int id)
         {
-            return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.Id==id));
+            return new SuccessResult<Rental>(200,_rentalDal.Get(r => r.Id==id));
         }
 
-        public IDataResult<List<Rental>> GetAll(Expression<Func<Rental, bool>> filter = null)
+        public ICustomResult<List<Rental>> GetAll(Expression<Func<Rental, bool>> filter = null)
         {
-            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(filter));
+            return new SuccessResult<List<Rental>>(200,_rentalDal.GetAll(filter));
         }
 
-        public IResult Update(Rental entity)
+        public ICustomResult<Rental> Update(Rental entity)
         {
             _rentalDal.Update(entity);
-            return new SuccessResult();
+            return new SuccessResult<Rental>(204,entity);
         }
     }
 }

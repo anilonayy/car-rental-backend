@@ -2,11 +2,10 @@
 using Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebAPI.Controllers
-{
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ColorsController : ControllerBase
+namespace WebAPI.Controllers 
+{ 
+
+    public class ColorsController : CustomControllerBase
     {
         readonly IColorService _colorService;
 
@@ -19,55 +18,35 @@ namespace WebAPI.Controllers
         public IActionResult GetAll()
         {
             var result = _colorService.GetAll();
-
-            if (result.isSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse(result);
         }
 
         [HttpGet("GetById")]
         public IActionResult GetById(int id)
         {
             var result = _colorService.GetById(id);
-
-            if (result.isSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse(result);
         }
 
         [HttpPost("Add")]
         public IActionResult Add(Color Color)
         {
             var result = _colorService.Create(Color);
-
-            if (result.isSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse(result);
         }
 
         [HttpPut("Update")]
         public IActionResult Update(Color Color)
         {
             var result = _colorService.Update(Color);
-
-            if (result.isSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse(result);
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(int id)
         {
             var result = _colorService.Delete(id);
-
-            if (result.isSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse(result);
         }
     }
 }
