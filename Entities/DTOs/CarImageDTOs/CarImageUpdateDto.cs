@@ -1,4 +1,4 @@
-﻿using Core.Entities;
+﻿using Core.Entities.Abstract;
 using Microsoft.AspNetCore.Http;
 
 namespace Entities.DTOs.CarImageDTOs

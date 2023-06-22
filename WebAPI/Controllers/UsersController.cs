@@ -1,11 +1,10 @@
 ﻿using Business.Abstract;
-using Entities.Concrete;
-using Microsoft.AspNetCore.Http;
+using Core.Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-  
+
     public class UsersController : CustomControllerBase
     {
         readonly IUserService _userService;

@@ -1,4 +1,4 @@
-﻿using Core.Entities;
+﻿using Core.Entities.Abstract;
 using System.Text.Json.Serialization;
 
 namespace Entities.DTOs.BrandDTOs

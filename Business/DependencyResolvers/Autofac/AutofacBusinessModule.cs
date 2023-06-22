@@ -1,7 +1,8 @@
 ﻿using Autofac;
 using Autofac.Extras.DynamicProxy;
 using Castle.DynamicProxy;
-using Core.Utilities.Intercreptors;
+using Core.Utilities.Interceptors;
+using Core.Utilities.Security.JWT;
 using DataAccess.Concrete.EntityFramework;
 using System.Reflection;
 using Module = Autofac.Module;
@@ -14,6 +15,9 @@ namespace Business.DependencyResolvers.Autofac
         {
             var currentAssembly = Assembly.GetExecutingAssembly();
             var dalAssembly = Assembly.GetAssembly(typeof(Context));
+
+
+            builder.RegisterType<JwtHelper>().As<ITokenHelper>();
 
 
             builder.RegisterAssemblyTypes(currentAssembly, dalAssembly).Where(x => x.Name.EndsWith("Service")).AsImplementedInterfaces().InstancePerLifetimeScope();
