@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -14,6 +15,7 @@ namespace Business.Concrete
         {
             _brandDal = brandDal;
         }
+        [SecuredOperation("admin,brand.add")]
         public ICustomResult<Brand> Create(Brand entity)
         {
             _brandDal.Create(entity);
