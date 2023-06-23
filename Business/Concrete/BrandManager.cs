@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Perfomance;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -16,6 +18,7 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
         [SecuredOperation("admin,brand.add")]
+        [PerformanceAspect(5)]
         public ICustomResult<Brand> Create(Brand entity)
         {
             _brandDal.Create(entity);
@@ -34,6 +37,7 @@ namespace Business.Concrete
             return new SuccessResult<Brand>(200,_brandDal.Get(b => b.BrandId==id));
         }
 
+        [CacheAspect]
         public ICustomResult<List<Brand>> GetAll(Expression<Func<Brand, bool>> filter = null)
         {
             return new SuccessResult<List<Brand>>(200,_brandDal.GetAll(filter));
