@@ -2,6 +2,7 @@
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs.CustomerDTOs;
 using System.Linq.Expressions;
 
 namespace Business.Concrete
@@ -42,6 +43,11 @@ namespace Business.Concrete
         {
             _customerDal.Update(entity);
             return new SuccessResult<Customer>(200,entity);
+        }
+
+        public ICustomResult<List<CustomerDetailDto>> GetCustomersWithDetail()
+        {
+            return new SuccessResult<List<CustomerDetailDto>>(200, _customerDal.GetCustomersWithDetail());
         }
     }
 }

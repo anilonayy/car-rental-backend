@@ -1,7 +1,7 @@
 ﻿using Core.DataAccess.EntityFramework;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using Entities.DTOs;
+using Entities.DTOs.CarDTOs;
 
 namespace DataAccess.Concrete.EntityFramework
 {
@@ -21,9 +21,11 @@ namespace DataAccess.Concrete.EntityFramework
 
                               select new CarDetailDto
                               {
+                                  Id = cars.Id,
                                   BrandName = brands.Name,
                                   CarName = cars.Description,
-                                  ColorName = colors.Name
+                                  ColorName = colors.Name,
+                                  
                               };
 
                 return results.ToList();

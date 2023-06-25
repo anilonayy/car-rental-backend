@@ -21,6 +21,13 @@ namespace WebAPI.Controllers
             return CreateResponse(result);
         }
 
+        [HttpGet("GetCustomersWithDetail")]
+        public IActionResult GetCustomersWithDetail()
+        {
+            var result = _customerService.GetCustomersWithDetail();
+            return CreateResponse(result);
+        }
+
         [HttpGet("GetById")]
         public IActionResult GetById(int id)
         {
@@ -48,5 +55,6 @@ namespace WebAPI.Controllers
             var result = _customerService.Delete(id);
             return CreateResponse(result);
         }
+
     }
 }
