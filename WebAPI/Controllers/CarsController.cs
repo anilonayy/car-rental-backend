@@ -28,6 +28,21 @@ namespace WebAPI.Controllers
 
             return CreateResponse(result);
         }
+        [HttpGet("GetByColor")]
+        public IActionResult GetByColor(int colorId)
+        {
+            var result = _carService.GetCarsByColorId(colorId);
+
+            return CreateResponse(result);
+        }
+
+        [HttpGet("GetByBrand")]
+        public IActionResult GetByBrand(int brandId)
+        {
+            var result = _carService.GetCarsByBrandId(brandId);
+
+            return CreateResponse(result);
+        }
 
         [HttpPost("Add")]
         public IActionResult Add(Car Car)

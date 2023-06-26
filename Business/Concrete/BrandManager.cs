@@ -17,7 +17,8 @@ namespace Business.Concrete
         {
             _brandDal = brandDal;
         }
-        [SecuredOperation("admin,brand.add")]
+        //[SecuredOperation("admin,brand.add")]
+        [CacheRemoveAspect("IBrandService.Get")]
         [PerformanceAspect(5)]
         public ICustomResult<Brand> Create(Brand entity)
         {
@@ -26,6 +27,7 @@ namespace Business.Concrete
             return new SuccessResult<Brand>(201, entity);
         }
 
+        [CacheRemoveAspect("IBrandService.Get")]
         public ICustomResult<Brand> Delete(int id)
         {
             _brandDal.Delete(_brandDal.Get(b => b.BrandId==id));

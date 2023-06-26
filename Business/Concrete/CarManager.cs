@@ -4,7 +4,6 @@ using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using Entities.DTOs;
 using Entities.DTOs.CarDTOs;
 using System.Linq.Expressions;
 
@@ -34,24 +33,31 @@ namespace Business.Concrete
             return new SuccessResult<Car>(204);
         }
 
-        public ICustomResult<Car> GetById(int id)
+        public ICustomResult<Car> Update(Car car)
         {
-            return new SuccessResult<Car>(200,_carDal.Get(c => c.Id==id));
+            _carDal.Update(car);
+            return new SuccessResult<Car>(204);
+        }
+
+        public ICustomResult<CarDetailDto> GetById(int id)
+        {
+            return new SuccessResult<CarDetailDto>(200,_carDal.GetWithDetails(p => p.Id==id).FirstOrDefault());
         }
 
         public ICustomResult<List<Car>> GetAll(Expression<Func<Car, bool>> filter = null)
         {
-            return new SuccessResult<List<Car>>(200,_carDal.GetAll(filter));
+            var data =  _carDal.GetAll(filter);
+            return new SuccessResult<List<Car>>(200,data);
         }
 
-        public ICustomResult<List<Car>> GetCarsByBrandId(int brandId)
+        public ICustomResult<List<CarDetailDto>> GetCarsByBrandId(int brandId)
         {
-            return new SuccessResult<List<Car>>(200,_carDal.GetAll(c => c.BrandId == brandId));
+            return new SuccessResult<List<CarDetailDto>>(200,_carDal.GetWithDetails(c => c.BrandId == brandId));
         }
 
-        public ICustomResult<List<Car>> GetCarsByColorId(int colorId)
+        public ICustomResult<List<CarDetailDto>> GetCarsByColorId(int colorId)
         {
-            return new SuccessResult<List<Car>>(200,_carDal.GetAll(c => c.ColorId == colorId));
+            return new SuccessResult<List<CarDetailDto>>(200,_carDal.GetWithDetails(c => c.ColorId == colorId));
         }
 
         public ICustomResult<List<CarDetailDto>> GetWithDetails()
@@ -59,11 +65,6 @@ namespace Business.Concrete
             return new SuccessResult<List<CarDetailDto>>(200,_carDal.GetWithDetails());
         }
 
-        public ICustomResult<Car> Update(Car entity)
-        {
-            _carDal.Update(entity);
-
-            return new SuccessResult<Car>(204,entity);
-        }
+       
     }
 }

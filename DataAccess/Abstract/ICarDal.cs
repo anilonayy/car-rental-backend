@@ -1,6 +1,7 @@
 ﻿using Core.DataAccess;
 using Entities.Concrete;
 using Entities.DTOs.CarDTOs;
+using System.Linq.Expressions;
 
 namespace DataAccess.Abstract
 {
@@ -10,6 +11,6 @@ namespace DataAccess.Abstract
     // new()   : Can be newable
     public interface ICarDal : IEntityRepository<Car>
     {
-        List<CarDetailDto> GetWithDetails();
+        List<CarDetailDto> GetWithDetails(Expression<Func<CarDetailDto,bool>> filter = null );
     }
 }

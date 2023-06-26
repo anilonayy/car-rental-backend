@@ -43,6 +43,7 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<EfRentalDal>().As<IRentalDal>();
             builder.RegisterType<RentalManager>().As<IRentalService>();
 
+            builder.RegisterType<RentalManager>().As<IRentalService>();
 
 
 

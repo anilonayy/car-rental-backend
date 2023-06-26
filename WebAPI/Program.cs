@@ -3,9 +3,11 @@ using Autofac.Extensions.DependencyInjection;
 using Business.DependencyResolvers.Autofac;
 using Core.DependencyResolvers;
 using Core.Extensions;
+using Core.Utilities.IoC;
 using Core.Utilities.Security.Encrypt;
 using Core.Utilities.Security.JWT;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,7 +19,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
-
 
 // Autofac Added
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
@@ -45,8 +46,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                    };
                });
 
-builder.Services.AddDependencyResolvers(
-                    new CoreModule()
+builder.Services.AddDependencyResolvers(new ICoreModule[]
+                        {
+                            new CoreModule()
+                        }
                  );
 
 
@@ -59,6 +62,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+ // for access to images
+app.UseFileServer(new FileServerOptions
+{
+    FileProvider = new PhysicalFileProvider(
+           Path.Combine(builder.Environment.ContentRootPath, "uploads")),
+    RequestPath = "/uploads"
+});
 
 
 app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader());

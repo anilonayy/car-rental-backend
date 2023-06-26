@@ -6,23 +6,20 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Core.Aspects.Autofac.Caching
 {
-    public partial class CacheAspect
+    public class CacheRemoveAspect : MethodInterception
     {
-        public class CacheRemoveAspect : MethodInterception
+        private string _pattern;
+        private ICacheManager _cacheManager;
+
+        public CacheRemoveAspect(string pattern)
         {
-            private string _pattern;
-            private ICacheManager _cacheManager;
+            _pattern = pattern;
+            _cacheManager = ServiceTool.ServiceProvider.GetService<ICacheManager>();
+        }
 
-            public CacheRemoveAspect(string pattern)
-            {
-                _pattern = pattern;
-                _cacheManager = ServiceTool.ServiceProvider.GetService<ICacheManager>();
-            }
-
-            protected override void OnSuccess(IInvocation invocation)
-            {
-                _cacheManager.RemoveByPattern(_pattern);
-            }
+        protected override void OnSuccess(IInvocation invocation)
+        {
+            _cacheManager.RemoveByPattern(_pattern);
         }
     }
 }

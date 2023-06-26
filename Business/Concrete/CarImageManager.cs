@@ -71,11 +71,12 @@ namespace Business.Concrete
 
         public async Task<ICustomResult<List<CarImage>>> GetImagesByCarId(int carId)
         {
-            var images = _carImageDal.GetAll(c => c.CarId == carId);
+            var images = _carImageDal.GetByCar(carId);
+              
 
             if(images.Count==0)
             {
-                images.Add(new CarImage { ImagePath ="LOGO PATH"});
+                images.Add(new CarImage { ImagePath ="logo.png"});
             }
          
            
