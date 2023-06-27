@@ -2,6 +2,7 @@
 using Business.Constants;
 using Core.Utilities.Business;
 using Core.Utilities.FileTools;
+using Core.Utilities.Functions;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -15,10 +16,12 @@ namespace Business.Concrete
     public class CarImageManager : ICarImageService
     {
         readonly ICarImageDal _carImageDal;
+        readonly IUriFunctions _uriFunctions;
 
-        public CarImageManager(ICarImageDal carImageDal)
+        public CarImageManager(ICarImageDal carImageDal, IUriFunctions uriFunctions)
         {
             _carImageDal = carImageDal;
+            _uriFunctions = uriFunctions;
         }
 
         public async Task<ICustomResult<CarImage>> CreateAsync(CarImageAddDto dto)
@@ -76,7 +79,7 @@ namespace Business.Concrete
 
             if(images.Count==0)
             {
-                images.Add(new CarImage { ImagePath ="logo.png"});
+                images.Add(new CarImage { ImagePath = _uriFunctions.GetHostUrl() +"uploads/logo.png"});
             }
          
            

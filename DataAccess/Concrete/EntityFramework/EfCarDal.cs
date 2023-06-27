@@ -1,17 +1,14 @@
-﻿using AutoMapper;
-using Core.DataAccess.EntityFramework;
+﻿using Core.DataAccess.EntityFramework;
 using Core.Utilities.Functions;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs.CarDTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using System.Linq.Expressions;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-   
+
     public class EfCarDal : EfEntityRepsitoryBase<Car, Context>, ICarDal
     {
         private readonly IUriFunctions _uriFunctions;
@@ -40,7 +37,7 @@ namespace DataAccess.Concrete.EntityFramework
                         ColorName = c.Color.Name,
                         Id = c.Id,
                         ModelYear = c.ModelYear,
-                        CoverImg = _uriFunctions.GetHostUrl()  + (c.CarImages.Count == 0 ? "logo.png" : c.CarImages.First().ImagePath),
+                        CoverImg = _uriFunctions.GetHostUrl()  + (c.CarImages.Count == 0 ? "uploads/logo.png" : c.CarImages.First().ImagePath),
                         DailyPrice = c.DailyPrice
                     });
 

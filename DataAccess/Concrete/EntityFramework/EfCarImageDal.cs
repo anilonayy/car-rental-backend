@@ -24,7 +24,7 @@ namespace DataAccess.Concrete.EntityFramework
                     CarId = c.CarId,
                     Date = c.Date,
                     Id = c.Id,
-                    ImagePath = _uriFunctions.GetHostUrl() + c.ImagePath
+                    ImagePath = _uriFunctions.GetHostUrl() +c.ImagePath
                 }
                     ).ToList();
             }
