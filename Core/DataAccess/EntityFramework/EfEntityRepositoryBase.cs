@@ -1,4 +1,5 @@
 ﻿using Core.Entities.Abstract;
+using Core.Utilities.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -42,7 +43,16 @@ namespace Core.DataAccess.EntityFramework
         {
             using (var context = new TContext())
             {
-                return context.Set<TEntity>().SingleOrDefault(filter);
+
+                var data = context.Set<TEntity>().SingleOrDefault(filter);
+                if (data == null)
+                {
+                    throw new NotFoundException($"404! {typeof(TEntity).Name} is not found..");
+                }
+                else
+                {
+                    return data;
+                }
             }
 
 
@@ -52,13 +62,23 @@ namespace Core.DataAccess.EntityFramework
         {
             using (var context = new TContext())
             {
-                return filter != null
+                var data = filter != null
                 ? context.Set<TEntity>().Where(filter).ToList()
                 : context.Set<TEntity>().ToList();
+
+                if (data == null)
+                {
+                    throw new NotFoundException($"404! {typeof(TEntity).Name} is not found..");
+                }
+                else
+                {
+                    return data;
+                }
             }
-
         }
-    }
 
+    }
 }
+
+
 

@@ -8,7 +8,7 @@ namespace Core.Utilities.Business
         {
             foreach(var rule in rules)
             {
-                if(!rule.isSuccess)
+                if(!rule.Success)
                 {
                     return rule;
                 }

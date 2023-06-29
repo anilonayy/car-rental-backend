@@ -4,20 +4,20 @@ namespace Core.Utilities.Results
 {
     public class CustomResult<T> : ICustomResult<T>
     {
-        public CustomResult(int statusCode, bool issuccess)
+        public CustomResult(int statusCode, bool success)
         {
             StatusCode = statusCode;
-            isSuccess = issuccess; 
+            Success = success; 
         }
 
-        public CustomResult(int statusCode,bool issuccess,T data): this(statusCode, issuccess)
+        public CustomResult(int statusCode,bool success, T data): this(statusCode, success)
         {
             Data = data;
         }
 
         public T Data { get; }
 
-        public bool isSuccess { get; }
+        public bool Success { get; }
 
         public List<string> Errors { get; set; } = new List<string>();
 

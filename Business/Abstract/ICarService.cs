@@ -15,8 +15,7 @@ namespace Business.Abstract
         ICustomResult<Car> Create(Car car);
         ICustomResult<Car> Update(Car car);
         ICustomResult<Car> Delete(int id);
-
-
+        ICustomResult<List<CarDetailDto>> GetByColorAndBrand(int colorId,int brandId);
     }
 
 
