@@ -9,6 +9,7 @@ namespace Entities.DTOs.RentalDTOs
         public CarDetailDto Car { get; set; }
         public UserDetailDto User { get; set; }
         public string RentDate { get; set; }
-        public string ReturnDate { get; set; }
+        public string PlannedReturnDate { get; set; }
+        public decimal Price { get; set; }
     }
 }

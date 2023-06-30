@@ -9,5 +9,6 @@ namespace Entities.DTOs.RentalDTOs
         public int CarId { get; set; }
         public int CustomerId { get; set; }
         public DateTime RentDate { get; set; }
+        public DateTime PlannedReturnDate { get; set; }
     }
 }

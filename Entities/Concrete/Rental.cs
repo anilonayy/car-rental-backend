@@ -9,8 +9,9 @@ namespace Entities.Concrete
         public Car? Car { get; set; }
         public int CustomerId { get; set; }
         public Customer? Customer { get; set; }
-        public byte IsPaid { get; set; }
         public DateTime RentDate { get; set; }
+        public DateTime PlannedReturnDate { get; set; }
         public DateTime? ReturnDate { get; set; }
+        public byte IsPaid { get; set; }
     }
 }

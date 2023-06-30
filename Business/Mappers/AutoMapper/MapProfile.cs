@@ -5,6 +5,7 @@ using Entities.DTOs.BrandDTOs;
 using Entities.DTOs.CarDTOs;
 using Entities.DTOs.ColorDTOs;
 using Entities.DTOs.CustomerDTOs;
+using Entities.DTOs.PaymentDTOs;
 using Entities.DTOs.RentalDTOs;
 using Entities.DTOs.UserDTOs;
 
@@ -34,6 +35,11 @@ namespace Business.Mappers.AutoMapper
             CreateMap<RentalCreateDto,Rental >();
             CreateMap<Rental, RentalUpdateDto>();
             CreateMap<Rental, RentalDetailDto>();
+
+
+            CreateMap<Payment, PaymentCreateDto>().ReverseMap();
+
+
 
         }
     }

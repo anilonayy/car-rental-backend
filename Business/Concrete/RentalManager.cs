@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using Business.Abstract;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
+using Core.Utilities.Functions;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -20,9 +23,10 @@ namespace Business.Concrete
             _mapper = mapper;
         }
 
+        [ValidationAspect(typeof(RentalValidator))]
         public ICustomResult<Rental> Create(RentalCreateDto dto)
         {
-            var isCarAvailable = _rentalDal.Get(r => r.CarId == dto.CarId && r.ReturnDate == null);
+            var isCarAvailable = _rentalDal.Get(r => r.CarId == dto.CarId && r.ReturnDate == null && r.IsPaid==1);
 
 
             // If car is not available right now
@@ -69,6 +73,10 @@ namespace Business.Concrete
             var data = _rentalDal.GetRentalWithDetail(rentalId);
 
             var mapped = _mapper.Map<RentalDetailDto>(data);
+
+            var days = DateFunctions.DateDifferentByString(mapped.RentDate, mapped.PlannedReturnDate).Days;
+
+            mapped.Price = days * mapped.Car.DailyPrice;
 
             return new SuccessResult<RentalDetailDto>(200,mapped);
         }

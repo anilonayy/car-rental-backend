@@ -46,6 +46,10 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<RentalManager>().As<IRentalService>();
 
+
+            builder.RegisterType<PaymentManager>().As<IPaymentService>();
+            builder.RegisterType<EfPaymentDal>().As<IPaymentDal>();
+
             builder.Register(c => new MapperConfiguration(cfg =>
             {
                 cfg.AddMaps(currentAssembly);

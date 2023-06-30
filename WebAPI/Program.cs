@@ -65,7 +65,6 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseCustomException();
 
 }
 
@@ -82,6 +81,7 @@ app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHead
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+//app.UseCustomException();
 
 app.MapControllers();
 

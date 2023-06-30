@@ -1,4 +1,5 @@
 ﻿using Core.DataAccess.EntityFramework;
+using Core.Utilities.Functions;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs.CarDTOs;
@@ -46,8 +47,8 @@ namespace DataAccess.Concrete.EntityFramework
                                     FirstName = users.FirstName,
                                     LastName = users.LastName
                                  },
-                                 ReturnDate = ((DateTime)rentals.ReturnDate).ToShortDateString(),
-                                 RentDate = rentals.RentDate.ToShortDateString()
+                                 PlannedReturnDate = ((DateTime)rentals.ReturnDate).ToShortDateString(),
+                                 RentDate = ((DateTime)rentals.RentDate).ToShortDateString()
                              });
 
                 return result.ToList();
