@@ -9,13 +9,13 @@ namespace WebAPI.Controllers
     {
         public ObjectResult CreateResponse<T>(ICustomResult<T> data) 
         {
-            if(data.StatusCode==204)
+            if(data.statusCode==204)
             {
-                return new ObjectResult(null) { StatusCode = data.StatusCode };
+                return new ObjectResult(null) { StatusCode = data.statusCode };
             }
             else
             {
-                return new ObjectResult(data) { StatusCode = data.StatusCode };
+                return new ObjectResult(data) { StatusCode = data.statusCode };
             }
         }
     }

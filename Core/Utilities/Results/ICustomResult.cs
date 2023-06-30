@@ -4,10 +4,10 @@ namespace Core.Utilities.Results
 {
     public interface ICustomResult<T>
     {
-        public T Data { get;}
-        public bool Success { get; }
-        public List<string> Errors { get; set; }
-        public int StatusCode { get; }
+        public T data { get;}
+        public bool success { get; }
+        public List<string> errors { get; set; }
+        public int statusCode { get; }
 
 
     }

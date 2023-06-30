@@ -52,12 +52,12 @@ namespace Business.Concrete
 
         public ICustomResult<List<CarDetailDto>> GetCarsByBrandId(int brandId)
         {
-            return new SuccessResult<List<CarDetailDto>>(200,_carDal.GetWithDetails(c => c.BrandId == brandId));
+            return new SuccessResult<List<CarDetailDto>>(200,_carDal.GetWithDetails(c => c.Brand.BrandId == brandId));
         }
 
         public ICustomResult<List<CarDetailDto>> GetCarsByColorId(int colorId)
         {
-            return new SuccessResult<List<CarDetailDto>>(200,_carDal.GetWithDetails(c => c.ColorId == colorId));
+            return new SuccessResult<List<CarDetailDto>>(200,_carDal.GetWithDetails(c => c.Color.ColorId == colorId));
         }
 
         public ICustomResult<List<CarDetailDto>> GetWithDetails()
@@ -67,7 +67,7 @@ namespace Business.Concrete
 
         public ICustomResult<List<CarDetailDto>> GetByColorAndBrand(int colorId,int brandId)
         {
-            return new SuccessResult<List<CarDetailDto>>(200, _carDal.GetWithDetails(c => c.ColorId==colorId && c.BrandId==brandId));
+            return new SuccessResult<List<CarDetailDto>>(200, _carDal.GetWithDetailsByFilter(colorId,brandId));
         }
     }
 }

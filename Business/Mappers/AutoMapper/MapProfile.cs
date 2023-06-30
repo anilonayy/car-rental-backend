@@ -16,7 +16,7 @@ namespace Business.Mappers.AutoMapper
         {
             CreateMap<Car, CarCreateDto>();
             CreateMap<Car, CarUpdateDto>();
-            CreateMap<Car, CarDetailDto>();
+            CreateMap<Car, CarDetailDto>().ReverseMap();
 
             CreateMap<Brand, BrandCreateDto>();
             CreateMap<Brand, BrandUpdateDto>();
@@ -31,7 +31,7 @@ namespace Business.Mappers.AutoMapper
             CreateMap<Customer, CustomerUpdateDto>();
 
 
-            CreateMap<Rental, RentalCreateDto>();
+            CreateMap<RentalCreateDto,Rental >();
             CreateMap<Rental, RentalUpdateDto>();
             CreateMap<Rental, RentalDetailDto>();
 

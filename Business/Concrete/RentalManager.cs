@@ -1,7 +1,9 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs.CarDTOs;
 using Entities.DTOs.RentalDTOs;
 using System.Linq.Expressions;
 
@@ -10,23 +12,25 @@ namespace Business.Concrete
     public class RentalManager : IRentalService
     {
         readonly IRentalDal _rentalDal;
+        private IMapper _mapper;
 
-        public RentalManager(IRentalDal rentalDal)
+        public RentalManager(IRentalDal rentalDal, IMapper mapper)
         {
             _rentalDal = rentalDal;
+            _mapper = mapper;
         }
 
-        public ICustomResult<Rental> Create(Rental entity)
+        public ICustomResult<Rental> Create(RentalCreateDto dto)
         {
-            var isCarAvailable = _rentalDal.Get(r => r.CarId == entity.CarId && r.ReturnDate == null);
+            var isCarAvailable = _rentalDal.Get(r => r.CarId == dto.CarId && r.ReturnDate == null);
 
 
             // If car is not available right now
             if(isCarAvailable != null)
                 return new ErrorResult<Rental>(400,"Car is not available right now.");
-            
 
 
+            var entity = _mapper.Map<Rental>(dto);
 
             _rentalDal.Create(entity);
             return new SuccessResult<Rental>(201,entity);
@@ -58,6 +62,15 @@ namespace Business.Concrete
         public ICustomResult<List<RentalDetailDto>> GetRentalsWithDetail()
         {
             return new SuccessResult<List<RentalDetailDto>>(200, _rentalDal.GetRentalsWithDetail());
+        }
+
+        public ICustomResult<RentalDetailDto> GetRentalWithDetail(int rentalId)
+        {
+            var data = _rentalDal.GetRentalWithDetail(rentalId);
+
+            var mapped = _mapper.Map<RentalDetailDto>(data);
+
+            return new SuccessResult<RentalDetailDto>(200,mapped);
         }
     }
 }

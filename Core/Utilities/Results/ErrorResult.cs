@@ -2,13 +2,13 @@
 {
     public class ErrorResult<T> : CustomResult<T>
     {
-        public ErrorResult(int statusCode, string error) : base(statusCode, false)
+        public ErrorResult(int statusCode, string _errors) : base(statusCode, false)
         {
-            Errors.Add(error);
+            errors.Add(_errors);
         }
-        public ErrorResult(int statusCode, List<string> errors) : base(statusCode, false)
+        public ErrorResult(int statusCode, List<string> _errors) : base(statusCode, false)
         {
-            Errors.AddRange(errors);
+            errors.AddRange(_errors);
         }
     }
 }

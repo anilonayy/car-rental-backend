@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Entities.DTOs.RentalDTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,10 @@ namespace WebAPI.Controllers
         public IActionResult GetAll()
         {
             var result = _rentalService.GetAll();
-            return CreateResponse(result);
+
+            var x =  CreateResponse(result);
+
+            return x;
         }
 
 
@@ -30,15 +34,16 @@ namespace WebAPI.Controllers
             return CreateResponse(result);
         }
 
+
         [HttpGet("GetById")]
         public IActionResult GetById(int id)
         {
-            var result = _rentalService.GetById(id);
+            var result = _rentalService.GetRentalWithDetail(id);
             return CreateResponse(result);
         }
 
         [HttpPost("Add")]
-        public IActionResult Add(Rental Rental)
+        public IActionResult Add(RentalCreateDto Rental)
         {
             var result = _rentalService.Create(Rental);
             return CreateResponse(result);

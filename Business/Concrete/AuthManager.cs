@@ -21,14 +21,14 @@ namespace Business.Concrete
 
         public ICustomResult<AccessToken> CreateAccessToken(User user)
         {
-            var claims = _userService.GetClaims(user).Data;
+            var claims = _userService.GetClaims(user).data;
             var accessToken = _tokenHelper.CreateToken(user, claims);
             return new SuccessResult<AccessToken>(200,accessToken);
         }
 
         public ICustomResult<User> Login(UserLoginDto userLoginDto)
         {
-            var userToCheck = _userService.GetByMail(userLoginDto.Email).Data;
+            var userToCheck = _userService.GetByMail(userLoginDto.Email).data;
             if (userToCheck == null)
             {
                 return new ErrorResult<User>(404,Messages.UserNotFound);
@@ -65,7 +65,7 @@ namespace Business.Concrete
         {
             var result =  _userService.GetByMail(email);
 
-            if(result.Success)
+            if(result.success)
             {
                 return new ErrorResult<User>(400, Messages.UserAlreadyExists);
             }

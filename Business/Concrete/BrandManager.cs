@@ -39,7 +39,7 @@ namespace Business.Concrete
 
         public ICustomResult<List<Brand>> GetAll(Expression<Func<Brand, bool>> filter = null)
         {
-            return new SuccessResult<List<Brand>>(200,_brandDal.GetAll(filter));
+            return  new SuccessResult<List<Brand>>(200,_brandDal.GetAll(filter));          
         }
 
         public ICustomResult<Brand> Update(Brand entity)

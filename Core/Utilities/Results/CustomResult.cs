@@ -4,24 +4,24 @@ namespace Core.Utilities.Results
 {
     public class CustomResult<T> : ICustomResult<T>
     {
-        public CustomResult(int statusCode, bool success)
+        public CustomResult(int _statusCode, bool _success)
         {
-            StatusCode = statusCode;
-            Success = success; 
+            statusCode = _statusCode;
+            success = _success; 
         }
 
-        public CustomResult(int statusCode,bool success, T data): this(statusCode, success)
+        public CustomResult(int _statusCode,bool _success, T _data): this(_statusCode, _success)
         {
-            Data = data;
+            data = _data;
         }
 
-        public T Data { get; }
+        public T data { get; }
 
-        public bool Success { get; }
+        public bool success { get; }
 
-        public List<string> Errors { get; set; } = new List<string>();
+        public List<string> errors { get; set; } = new List<string>();
 
         [JsonIgnore]
-        public int StatusCode { get; }
+        public int statusCode { get; }
     }
 }

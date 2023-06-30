@@ -43,37 +43,17 @@ namespace Core.DataAccess.EntityFramework
         {
             using (var context = new TContext())
             {
-
-                var data = context.Set<TEntity>().SingleOrDefault(filter);
-                if (data == null)
-                {
-                    throw new NotFoundException($"404! {typeof(TEntity).Name} is not found..");
-                }
-                else
-                {
-                    return data;
-                }
+                return context.Set<TEntity>().SingleOrDefault(filter);
             }
-
-
         }
 
         public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
         {
             using (var context = new TContext())
             {
-                var data = filter != null
+                return filter != null
                 ? context.Set<TEntity>().Where(filter).ToList()
                 : context.Set<TEntity>().ToList();
-
-                if (data == null)
-                {
-                    throw new NotFoundException($"404! {typeof(TEntity).Name} is not found..");
-                }
-                else
-                {
-                    return data;
-                }
             }
         }
 

@@ -3,6 +3,8 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs.CarDTOs;
 using Entities.DTOs.RentalDTOs;
+using Entities.DTOs.UserDTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Concrete.EntityFramework
 {
@@ -33,19 +35,34 @@ namespace DataAccess.Concrete.EntityFramework
                              select new RentalDetailDto
                              {
                                  Id = rentals.Id,
-                                 CarDetail = new CarDetailDto
+                                 Car = new CarDetailDto
                                  {
                                      Id = cars.Id,
-                                     BrandName = brands.Name,
-                                     CarName = cars.Description,
-                                     ColorName = colors.Name
+                                     Brand = brands,
+                                     Color= colors
+                                   
                                  },
-                                 CustomerName = users.FirstName+" "+users.LastName,
+                                 User = new UserDetailDto {
+                                    FirstName = users.FirstName,
+                                    LastName = users.LastName
+                                 },
                                  ReturnDate = ((DateTime)rentals.ReturnDate).ToShortDateString(),
                                  RentDate = rentals.RentDate.ToShortDateString()
                              });
 
                 return result.ToList();
+            }
+        }
+
+        public Rental GetRentalWithDetail(int rentalId)
+        {
+            using(var context = new Context())
+            {
+               return context.Rentals
+                    .Include(r => r.Car)
+                    .Include(r => r.Car.Brand)
+                    .Include(r => r.Car.Color)
+                    .Single(r => r.Id == rentalId);
             }
         }
     }

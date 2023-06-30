@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extras.DynamicProxy;
+using AutoMapper;
 using Business.Abstract;
 using Business.Concrete;
 using Castle.DynamicProxy;
@@ -44,6 +45,13 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<RentalManager>().As<IRentalService>();
 
             builder.RegisterType<RentalManager>().As<IRentalService>();
+
+            builder.Register(c => new MapperConfiguration(cfg =>
+            {
+                cfg.AddMaps(currentAssembly);
+            })).AsSelf().SingleInstance();
+
+            builder.Register(c => c.Resolve<MapperConfiguration>().CreateMapper()).As<IMapper>().SingleInstance();
 
 
 

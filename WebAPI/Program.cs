@@ -63,8 +63,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+else
+{
+    app.UseCustomException();
 
- // for access to images
+}
+
+// for access to images
 app.UseFileServer(new FileServerOptions
 {
     FileProvider = new PhysicalFileProvider(
@@ -76,7 +81,6 @@ app.UseFileServer(new FileServerOptions
 app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
 
 app.UseHttpsRedirection();
-app.UseCustomException();
 app.UseAuthorization();
 
 app.MapControllers();

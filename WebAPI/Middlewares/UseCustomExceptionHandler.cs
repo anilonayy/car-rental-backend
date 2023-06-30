@@ -19,7 +19,7 @@ namespace Business.Middlewares
                     var statusCode = exceptionFeature.Error switch
                     {
                         ClientSideException => 400,
-                        NotFoundException => 404,
+                        NotFoundException => 400,
                         _ => 500
                     };
 
