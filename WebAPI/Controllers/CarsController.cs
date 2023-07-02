@@ -37,9 +37,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("GetByColorAndBrand")]
-        public IActionResult GetByColorAndBrand(int colorId,int brandId)
+        public IActionResult GetByColorAndBrand(int colorId, int brandId)
         {
-            var result = _carService.GetByColorAndBrand(colorId,brandId);
+            var result = _carService.GetByColorAndBrand(colorId, brandId);
 
             return CreateResponse(result);
         }

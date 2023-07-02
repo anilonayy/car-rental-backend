@@ -1,7 +1,6 @@
 ﻿using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.DTOs.CarImageDTOs;
-using Microsoft.AspNetCore.Http;
 using System.Linq.Expressions;
 
 namespace Business.Abstract

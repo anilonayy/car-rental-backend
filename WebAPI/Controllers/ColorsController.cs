@@ -2,8 +2,8 @@
 using Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebAPI.Controllers 
-{ 
+namespace WebAPI.Controllers
+{
 
     public class ColorsController : CustomControllerBase
     {

@@ -1,12 +1,11 @@
-﻿using Core.Business;
-using Core.Utilities.Results;
+﻿using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.DTOs.RentalDTOs;
 using System.Linq.Expressions;
 
 namespace Business.Abstract
 {
-    public interface IRentalService 
+    public interface IRentalService
     {
         ICustomResult<Rental> Update(Rental entity);
         ICustomResult<List<Rental>> GetAll(Expression<Func<Rental, bool>> filter = null);

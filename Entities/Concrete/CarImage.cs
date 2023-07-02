@@ -1,5 +1,4 @@
 ﻿using Core.Entities.Abstract;
-using Microsoft.AspNetCore.Http.Internal;
 
 namespace Entities.Concrete
 {

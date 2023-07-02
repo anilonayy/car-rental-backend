@@ -1,16 +1,11 @@
 ﻿using Entities.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Entities.DTOs.CarDTOs
 {
     public class CarTestDto
     {
-        public int Id { get; set;}
+        public int Id { get; set; }
         public int BrandId { get; set; }
         [JsonIgnore]
         public Brand? Brand { get; set; }

@@ -55,7 +55,7 @@ namespace Core.Utilities.FileTools
 
                 throw e;
             }
-           
+
         }
     }
 }

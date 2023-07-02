@@ -6,9 +6,7 @@ using Core.Utilities.Functions;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using Entities.DTOs;
 using Entities.DTOs.CarImageDTOs;
-using Microsoft.AspNetCore.Http;
 using System.Linq.Expressions;
 
 namespace Business.Concrete
@@ -28,7 +26,7 @@ namespace Business.Concrete
         {
             var ruleResult = BusinessRules.Run(IsMaximumPhotoCount(dto.CarId));
 
-            if(ruleResult != null)
+            if (ruleResult != null)
             {
                 return ruleResult;
             }
@@ -50,39 +48,39 @@ namespace Business.Concrete
                 return new SuccessResult<CarImage>(201, entity);
             }
         }
-        
+
 
         public async Task<ICustomResult<CarImage>> Delete(int id)
         {
             var image = _carImageDal.Get(c => c.Id == id);
 
             _carImageDal.Delete(image);
-             await FileOperations.DeleteAsync(image.ImagePath);
+            await FileOperations.DeleteAsync(image.ImagePath);
 
             return new SuccessResult<CarImage>(204);
         }
 
         public ICustomResult<List<CarImage>> GetAll(Expression<Func<CarImage, bool>> filter = null)
         {
-            return new SuccessResult<List<CarImage>>(200, _carImageDal.GetAll(filter) );
+            return new SuccessResult<List<CarImage>>(200, _carImageDal.GetAll(filter));
         }
 
         public ICustomResult<CarImage> GetById(int id)
         {
-            return new SuccessResult<CarImage>(200,_carImageDal.Get(c => c.Id == id));
+            return new SuccessResult<CarImage>(200, _carImageDal.Get(c => c.Id == id));
         }
 
         public async Task<ICustomResult<List<CarImage>>> GetImagesByCarId(int carId)
         {
             var images = _carImageDal.GetByCar(carId);
-              
 
-            if(images.Count==0)
+
+            if (images.Count == 0)
             {
-                images.Add(new CarImage { ImagePath = _uriFunctions.GetHostUrl() +"uploads/logo.png"});
+                images.Add(new CarImage { ImagePath = _uriFunctions.GetHostUrl() + "uploads/logo.png" });
             }
-         
-           
+
+
             return new SuccessResult<List<CarImage>>(200, images);
         }
 
@@ -98,7 +96,7 @@ namespace Business.Concrete
             target.Date = DateTime.Now;
 
             _carImageDal.Update(target);
-        
+
 
             return new SuccessResult<CarImage>(200, target);
         }
@@ -108,9 +106,9 @@ namespace Business.Concrete
         {
             var result = _carImageDal.GetAll(x => x.CarId == carId).Count >= 5;
 
-            if(result)
+            if (result)
             {
-                return new ErrorResult<CarImage>(400,Messages.CarImageMaximumLengthError);
+                return new ErrorResult<CarImage>(400, Messages.CarImageMaximumLengthError);
             }
             return new SuccessResult<CarImage>(200);
         }

@@ -4,7 +4,7 @@ using Entities.Concrete;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfPaymentDal : EfEntityRepsitoryBase<Payment,Context>,IPaymentDal
+    public class EfPaymentDal : EfEntityRepsitoryBase<Payment, Context>, IPaymentDal
     {
     }
 }

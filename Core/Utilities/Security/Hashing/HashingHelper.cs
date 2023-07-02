@@ -4,7 +4,7 @@ namespace Core.Utilities.Security.Hashing
 {
     public static class HashingHelper
     {
-        public static void HashPassword(string password,out byte[] passwordHash,out byte[] passwordSalt)
+        public static void HashPassword(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512())
             {

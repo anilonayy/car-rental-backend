@@ -1,5 +1,4 @@
-﻿using Core.Entities.Concrete;
-using Entities.DTOs.UserDTOs;
+﻿using Entities.DTOs.UserDTOs;
 
 namespace Entities.DTOs.CustomerDTOs
 {
@@ -9,6 +8,6 @@ namespace Entities.DTOs.CustomerDTOs
         public UserDetailDto UserDetails { get; set; }
         public string CompanyName { get; set; }
 
-     
+
     }
 }

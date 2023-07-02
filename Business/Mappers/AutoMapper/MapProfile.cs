@@ -32,7 +32,7 @@ namespace Business.Mappers.AutoMapper
             CreateMap<Customer, CustomerUpdateDto>();
 
 
-            CreateMap<RentalCreateDto,Rental >();
+            CreateMap<RentalCreateDto, Rental>();
             CreateMap<Rental, RentalUpdateDto>();
             CreateMap<Rental, RentalDetailDto>();
 

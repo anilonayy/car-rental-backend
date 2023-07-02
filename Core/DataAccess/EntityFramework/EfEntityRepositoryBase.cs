@@ -1,5 +1,4 @@
 ﻿using Core.Entities.Abstract;
-using Core.Utilities.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 

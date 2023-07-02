@@ -1,6 +1,5 @@
 ﻿using Core.Entities.Abstract;
 using Microsoft.AspNetCore.Http;
-using System.Text.Json.Serialization;
 
 namespace Entities.DTOs.CarImageDTOs
 {

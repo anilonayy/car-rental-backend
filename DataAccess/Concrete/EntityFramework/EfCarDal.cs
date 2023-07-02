@@ -1,5 +1,4 @@
 ﻿using Core.DataAccess.EntityFramework;
-using Core.Entities.Abstract;
 using Core.Utilities.Exceptions;
 using Core.Utilities.Functions;
 using DataAccess.Abstract;
@@ -32,7 +31,7 @@ namespace DataAccess.Concrete.EntityFramework
                     .Include(c => c.CarImages)
                     .Select(c => new CarDetailDto()
                     {
-                        Brand= c.Brand,
+                        Brand = c.Brand,
                         Color = c.Color,
                         Description = c.Description,
                         Id = c.Id,
@@ -72,17 +71,17 @@ namespace DataAccess.Concrete.EntityFramework
 
                 if (colorId != 0)
                 {
-                   query =  query.Where(c => c.Color.ColorId == colorId);
+                    query = query.Where(c => c.Color.ColorId == colorId);
                 }
-                if(brandId != 0)
+                if (brandId != 0)
                 {
                     query = query.Where(c => c.Brand.BrandId == brandId);
                 }
 
-                var data =  query.ToList();
+                var data = query.ToList();
 
 
-                if(data.Count == 0)
+                if (data.Count == 0)
                 {
                     throw new NotFoundException($"There is no car for this parameters. ");
                 }

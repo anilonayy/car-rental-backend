@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-  
+
     public class BrandsController : CustomControllerBase
     {
         readonly IBrandService _brandService;

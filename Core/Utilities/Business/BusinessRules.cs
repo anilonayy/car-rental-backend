@@ -6,9 +6,9 @@ namespace Core.Utilities.Business
     {
         public static ICustomResult<T> Run<T>(params ICustomResult<T>[] rules)
         {
-            foreach(var rule in rules)
+            foreach (var rule in rules)
             {
-                if(!rule.success)
+                if (!rule.success)
                 {
                     return rule;
                 }

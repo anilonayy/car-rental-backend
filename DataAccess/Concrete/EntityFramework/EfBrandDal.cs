@@ -4,7 +4,7 @@ using Entities.Concrete;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfBrandDal : EfEntityRepsitoryBase<Brand, Context>,  IBrandDal
+    public class EfBrandDal : EfEntityRepsitoryBase<Brand, Context>, IBrandDal
     {
     }
 }

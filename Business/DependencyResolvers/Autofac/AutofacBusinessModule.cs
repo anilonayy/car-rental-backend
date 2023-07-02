@@ -39,8 +39,8 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<CustomerManager>().As<ICustomerService>();
 
 
-            builder.RegisterType<AuthManager>().As<IAuthService>();   
-            
+            builder.RegisterType<AuthManager>().As<IAuthService>();
+
             builder.RegisterType<EfRentalDal>().As<IRentalDal>();
             builder.RegisterType<RentalManager>().As<IRentalService>();
 

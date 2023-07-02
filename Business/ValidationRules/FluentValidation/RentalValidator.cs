@@ -1,5 +1,4 @@
-﻿using Entities.Concrete;
-using Entities.DTOs.RentalDTOs;
+﻿using Entities.DTOs.RentalDTOs;
 using FluentValidation;
 
 namespace Business.ValidationRules.FluentValidation

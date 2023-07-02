@@ -1,5 +1,4 @@
 ﻿using Business.Abstract;
-using Entities.Concrete;
 using Entities.DTOs.CarImageDTOs;
 using Microsoft.AspNetCore.Mvc;
 

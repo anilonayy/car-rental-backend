@@ -1,6 +1,4 @@
 ﻿using Business.Abstract;
-using Business.BusinessAspects.Autofac;
-using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Perfomance;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -28,24 +26,24 @@ namespace Business.Concrete
 
         public ICustomResult<Brand> Delete(int id)
         {
-            _brandDal.Delete(_brandDal.Get(b => b.BrandId==id));
+            _brandDal.Delete(_brandDal.Get(b => b.BrandId == id));
             return new SuccessResult<Brand>(204);
         }
 
         public ICustomResult<Brand> GetById(int id)
         {
-            return new SuccessResult<Brand>(200,_brandDal.Get(b => b.BrandId==id));
+            return new SuccessResult<Brand>(200, _brandDal.Get(b => b.BrandId == id));
         }
 
         public ICustomResult<List<Brand>> GetAll(Expression<Func<Brand, bool>> filter = null)
         {
-            return  new SuccessResult<List<Brand>>(200,_brandDal.GetAll(filter));          
+            return new SuccessResult<List<Brand>>(200, _brandDal.GetAll(filter));
         }
 
         public ICustomResult<Brand> Update(Brand entity)
         {
             _brandDal.Update(entity);
-            return new SuccessResult<Brand>(200,entity);
+            return new SuccessResult<Brand>(200, entity);
         }
     }
 }

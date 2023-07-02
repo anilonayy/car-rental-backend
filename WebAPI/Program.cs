@@ -1,7 +1,6 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Business.DependencyResolvers.Autofac;
-using Business.Middlewares;
 using Core.DependencyResolvers;
 using Core.Extensions;
 using Core.Utilities.IoC;
@@ -81,7 +80,8 @@ app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHead
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
-//app.UseCustomException();
+
+app.ConfigureCustomExceptionMiddleware();
 
 app.MapControllers();
 

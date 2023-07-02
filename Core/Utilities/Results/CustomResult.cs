@@ -7,10 +7,10 @@ namespace Core.Utilities.Results
         public CustomResult(int _statusCode, bool _success)
         {
             statusCode = _statusCode;
-            success = _success; 
+            success = _success;
         }
 
-        public CustomResult(int _statusCode,bool _success, T _data): this(_statusCode, _success)
+        public CustomResult(int _statusCode, bool _success, T _data) : this(_statusCode, _success)
         {
             data = _data;
         }

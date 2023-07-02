@@ -21,15 +21,15 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CarValidator))]
         public ICustomResult<Car> Create(Car entity)
         {
-            
-                _carDal.Create(entity);
-                return new SuccessResult<Car>(201,entity);
-          
+
+            _carDal.Create(entity);
+            return new SuccessResult<Car>(201, entity);
+
         }
 
         public ICustomResult<Car> Delete(int id)
         {
-            _carDal.Delete( _carDal.Get(c => c.Id==id ));
+            _carDal.Delete(_carDal.Get(c => c.Id == id));
             return new SuccessResult<Car>(204);
         }
 
@@ -41,33 +41,33 @@ namespace Business.Concrete
 
         public ICustomResult<CarDetailDto> GetById(int id)
         {
-            return new SuccessResult<CarDetailDto>(200,_carDal.GetWithDetails(p => p.Id==id).FirstOrDefault());
+            return new SuccessResult<CarDetailDto>(200, _carDal.GetWithDetails(p => p.Id == id).FirstOrDefault());
         }
 
         public ICustomResult<List<Car>> GetAll(Expression<Func<Car, bool>> filter = null)
         {
-            var data =  _carDal.GetAll(filter);
-            return new SuccessResult<List<Car>>(200,data);
+            var data = _carDal.GetAll(filter);
+            return new SuccessResult<List<Car>>(200, data);
         }
 
         public ICustomResult<List<CarDetailDto>> GetCarsByBrandId(int brandId)
         {
-            return new SuccessResult<List<CarDetailDto>>(200,_carDal.GetWithDetails(c => c.Brand.BrandId == brandId));
+            return new SuccessResult<List<CarDetailDto>>(200, _carDal.GetWithDetails(c => c.Brand.BrandId == brandId));
         }
 
         public ICustomResult<List<CarDetailDto>> GetCarsByColorId(int colorId)
         {
-            return new SuccessResult<List<CarDetailDto>>(200,_carDal.GetWithDetails(c => c.Color.ColorId == colorId));
+            return new SuccessResult<List<CarDetailDto>>(200, _carDal.GetWithDetails(c => c.Color.ColorId == colorId));
         }
 
         public ICustomResult<List<CarDetailDto>> GetWithDetails()
         {
-            return new SuccessResult<List<CarDetailDto>>(200,_carDal.GetWithDetails());
+            return new SuccessResult<List<CarDetailDto>>(200, _carDal.GetWithDetails());
         }
 
-        public ICustomResult<List<CarDetailDto>> GetByColorAndBrand(int colorId,int brandId)
+        public ICustomResult<List<CarDetailDto>> GetByColorAndBrand(int colorId, int brandId)
         {
-            return new SuccessResult<List<CarDetailDto>>(200, _carDal.GetWithDetailsByFilter(colorId,brandId));
+            return new SuccessResult<List<CarDetailDto>>(200, _carDal.GetWithDetailsByFilter(colorId, brandId));
         }
     }
 }

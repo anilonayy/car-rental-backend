@@ -1,11 +1,8 @@
 ﻿using Core.DataAccess.EntityFramework;
-using Core.Entities.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs.CustomerDTOs;
 using Entities.DTOs.UserDTOs;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace DataAccess.Concrete.EntityFramework
 {
@@ -34,7 +31,7 @@ namespace DataAccess.Concrete.EntityFramework
 
                               }).ToList();
 
-                            
+
 
 
                 return result;

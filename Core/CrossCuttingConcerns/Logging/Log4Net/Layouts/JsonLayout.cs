@@ -1,7 +1,6 @@
 ﻿using log4net.Core;
 using log4net.Layout;
 using Newtonsoft.Json;
-using System.Xml;
 using static Core.CrossCuttingConcerns.Logging.Log4Net.LoggerServiceBase;
 
 namespace Core.CrossCuttingConcerns.Logging.Log4Net.Layouts

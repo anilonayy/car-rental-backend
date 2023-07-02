@@ -8,7 +8,7 @@ namespace DataAccess.Concrete.EntityFramework
     {
         public List<OperationClaim> GetClaims(User user)
         {
-            using(var context = new Context())
+            using (var context = new Context())
             {
                 var result = from operationClaims in context.OperationClaims
                              join userOperationClaims in context.UserOperationClaims

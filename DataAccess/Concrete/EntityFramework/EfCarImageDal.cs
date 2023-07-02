@@ -1,6 +1,5 @@
 ﻿using Core.DataAccess.EntityFramework;
 using Core.Utilities.Functions;
-using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 
@@ -16,7 +15,7 @@ namespace DataAccess.Concrete.EntityFramework
         }
         public List<CarImage> GetByCar(int carId)
         {
-            using(var context = new  Context())
+            using (var context = new Context())
             {
                 return context.CarImages.Where(c => c.CarId == carId).Select(
                 c => new CarImage
@@ -24,7 +23,7 @@ namespace DataAccess.Concrete.EntityFramework
                     CarId = c.CarId,
                     Date = c.Date,
                     Id = c.Id,
-                    ImagePath = _uriFunctions.GetHostUrl() +c.ImagePath
+                    ImagePath = _uriFunctions.GetHostUrl() + c.ImagePath
                 }
                     ).ToList();
             }

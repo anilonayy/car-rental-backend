@@ -1,6 +1,4 @@
-﻿using Entities.Concrete;
-
-namespace Entities.DTOs.PaymentDTOs
+﻿namespace Entities.DTOs.PaymentDTOs
 {
     public class PaymentCreateDto
     {

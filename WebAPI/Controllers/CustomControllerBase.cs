@@ -7,9 +7,9 @@ namespace WebAPI.Controllers
     [ApiController]
     public class CustomControllerBase : ControllerBase
     {
-        public ObjectResult CreateResponse<T>(ICustomResult<T> data) 
+        public ObjectResult CreateResponse<T>(ICustomResult<T> data)
         {
-            if(data.statusCode==204)
+            if (data.statusCode == 204)
             {
                 return new ObjectResult(null) { StatusCode = data.statusCode };
             }

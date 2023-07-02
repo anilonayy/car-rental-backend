@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace Core.Business
 {
-    public interface IGenericService<TEntity> where TEntity : class,new()
+    public interface IGenericService<TEntity> where TEntity : class, new()
     {
         ICustomResult<List<TEntity>> GetAll(Expression<Func<TEntity, bool>> filter = null);
         ICustomResult<TEntity> GetById(int id);

@@ -23,7 +23,7 @@ namespace Business.Concrete
         {
             var claims = _userService.GetClaims(user).data;
             var accessToken = _tokenHelper.CreateToken(user, claims);
-            return new SuccessResult<AccessToken>(200,accessToken);
+            return new SuccessResult<AccessToken>(200, accessToken);
         }
 
         public ICustomResult<User> Login(UserLoginDto userLoginDto)
@@ -31,21 +31,21 @@ namespace Business.Concrete
             var userToCheck = _userService.GetByMail(userLoginDto.Email).data;
             if (userToCheck == null)
             {
-                return new ErrorResult<User>(404,Messages.UserNotFound);
+                return new ErrorResult<User>(404, Messages.UserNotFound);
             }
 
             if (!HashingHelper.VerifyPasswordHash(userLoginDto.Password, userToCheck.PasswordHash, userToCheck.PasswordSalt))
             {
-                return new ErrorResult<User>(400,Messages.PasswordError);
+                return new ErrorResult<User>(400, Messages.PasswordError);
             }
 
-            return new SuccessResult<User>(200,userToCheck);
+            return new SuccessResult<User>(200, userToCheck);
         }
 
         public ICustomResult<User> Register(UserRegisterDto userRegisterDto)
         {
             byte[] passwordHash, passwordSalt;
-            HashingHelper.HashPassword(userRegisterDto.Password,out passwordHash,out passwordSalt);
+            HashingHelper.HashPassword(userRegisterDto.Password, out passwordHash, out passwordSalt);
 
             var user = new User()
             {
@@ -63,9 +63,9 @@ namespace Business.Concrete
 
         public ICustomResult<User> UserExists(string email)
         {
-            var result =  _userService.GetByMail(email);
+            var result = _userService.GetByMail(email);
 
-            if(result.success)
+            if (result.success)
             {
                 return new ErrorResult<User>(400, Messages.UserAlreadyExists);
             }
@@ -73,7 +73,7 @@ namespace Business.Concrete
             {
                 return new SuccessResult<User>(200);
             }
-            
+
         }
     }
 }

@@ -20,29 +20,29 @@ namespace Business.Concrete
         {
             _customerDal.Create(entity);
 
-            return new SuccessResult<Customer>(201,entity);
+            return new SuccessResult<Customer>(201, entity);
         }
 
         public ICustomResult<Customer> Delete(int id)
         {
-            _customerDal.Delete( _customerDal.Get(c => c.Id==id));
+            _customerDal.Delete(_customerDal.Get(c => c.Id == id));
             return new SuccessResult<Customer>(204);
         }
 
-        public ICustomResult<Customer> GetById(int id )
+        public ICustomResult<Customer> GetById(int id)
         {
-            return new SuccessResult<Customer>(200,_customerDal.Get(c => c.Id==id));
+            return new SuccessResult<Customer>(200, _customerDal.Get(c => c.Id == id));
         }
 
         public ICustomResult<List<Customer>> GetAll(Expression<Func<Customer, bool>> filter = null)
         {
-            return new SuccessResult<List<Customer>>(200,_customerDal.GetAll(filter));
+            return new SuccessResult<List<Customer>>(200, _customerDal.GetAll(filter));
         }
 
         public ICustomResult<Customer> Update(Customer entity)
         {
             _customerDal.Update(entity);
-            return new SuccessResult<Customer>(200,entity);
+            return new SuccessResult<Customer>(200, entity);
         }
 
         public ICustomResult<List<CustomerDetailDto>> GetCustomersWithDetail()

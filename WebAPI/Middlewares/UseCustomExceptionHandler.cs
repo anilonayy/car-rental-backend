@@ -25,7 +25,7 @@ namespace Business.Middlewares
 
                     context.Response.StatusCode = statusCode;
 
-                
+
                     var response = new ErrorResult<object>(statusCode, exceptionFeature.Error.Message);
 
                     await context.Response.WriteAsync(JsonSerializer.Serialize(response));

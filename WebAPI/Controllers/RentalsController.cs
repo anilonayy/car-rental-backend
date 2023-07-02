@@ -1,12 +1,11 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
 using Entities.DTOs.RentalDTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-    
+
     public class RentalsController : CustomControllerBase
     {
         readonly IRentalService _rentalService;
@@ -21,7 +20,7 @@ namespace WebAPI.Controllers
         {
             var result = _rentalService.GetAll();
 
-            var x =  CreateResponse(result);
+            var x = CreateResponse(result);
 
             return x;
         }
