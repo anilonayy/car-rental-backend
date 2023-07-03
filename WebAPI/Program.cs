@@ -62,10 +62,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-else
-{
 
-}
 
 // for access to images
 app.UseFileServer(new FileServerOptions
@@ -76,7 +73,7 @@ app.UseFileServer(new FileServerOptions
 });
 
 
-app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
+app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod());
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

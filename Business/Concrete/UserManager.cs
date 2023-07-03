@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Core.Entities.Concrete;
+using Core.Utilities.Messages;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using System.Linq.Expressions;
@@ -16,56 +17,56 @@ namespace Business.Concrete
             _userDal = userDal;
         }
 
-        public ICustomResult<User> Create(User entity)
+        public IResult<User> Create(User entity)
         {
             _userDal.Create(entity);
-            return new SuccessResult<User>(201, entity);
+            return new CreatedResult<User>(OperationMessages.SuccessMessage,OperationMessages.SuccessMessage, entity);
         }
 
-        public ICustomResult<User> Delete(int id)
+        public IResult<User> Delete(int id)
         {
             _userDal.Delete(_userDal.Get(u => u.Id == id));
-            return new SuccessResult<User>(204);
+            return new NoContentResult<User>();
         }
 
-        public ICustomResult<User> GetById(int id)
+        public IResult<User> GetById(int id)
         {
-            return new SuccessResult<User>(200, _userDal.Get(u => u.Id == id));
+            return new SuccessResult<User>(OperationMessages.SuccessMessage, OperationMessages.SuccessMessage, _userDal.Get(u => u.Id == id));
         }
 
-        public ICustomResult<List<User>> GetAll(Expression<Func<User, bool>> filter = null)
+        public IResult<List<User>> GetAll(Expression<Func<User, bool>> filter = null)
         {
-            return new SuccessResult<List<User>>(200, _userDal.GetAll(filter));
+            return new SuccessResult<List<User>>(OperationMessages.SuccessMessage,OperationMessages.SuccessMessage, _userDal.GetAll(filter));
         }
 
-        public ICustomResult<User> Update(User entity)
+        public IResult<User> Update(User entity)
         {
             _userDal.Update(entity);
-            return new SuccessResult<User>(204, entity);
+            return new SuccessResult<User>(OperationMessages.SuccessMessage, OperationMessages.SuccessMessage, entity);
         }
 
-        public ICustomResult<User> GetByMail(string email)
+        public IResult<User> GetByMail(string email)
         {
             var user = _userDal.Get(u => u.Email == email);
             if (user == null)
             {
-                return new ErrorResult<User>(200, Messages.UserNotFound);
+                return new ErrorResult<User>(OperationMessages.ErrorTitle, Messages.UserNotFound);
             }
             else
             {
-                return new SuccessResult<User>(200, user);
+                return new SuccessResult<User>(OperationMessages.SuccessTitle, OperationMessages.SuccessMessage, user);
             }
         }
 
-        public ICustomResult<List<OperationClaim>> GetClaims(User user)
+        public IResult<List<OperationClaim>> GetClaims(User user)
         {
-            return new SuccessResult<List<OperationClaim>>(200, _userDal.GetClaims(user));
+            return new SuccessResult<List<OperationClaim>>(OperationMessages.SuccessMessage, OperationMessages.SuccessMessage, _userDal.GetClaims(user));
         }
 
-        public ICustomResult<User> Add(User user)
+        public IResult<User> Add(User user)
         {
             _userDal.Create(user);
-            return new SuccessResult<User>(200);
+            return new CreatedResult<User>(OperationMessages.SuccessMessage, OperationMessages.SuccessMessage,user);
         }
     }
 }

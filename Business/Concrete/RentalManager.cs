@@ -3,6 +3,7 @@ using Business.Abstract;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Functions;
+using Core.Utilities.Messages;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -23,51 +24,51 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(RentalValidator))]
-        public ICustomResult<Rental> Create(RentalCreateDto dto)
+        public IResult<Rental> Create(RentalCreateDto dto)
         {
             var isCarAvailable = _rentalDal.Get(r => r.CarId == dto.CarId && r.ReturnDate == null && r.IsPaid == 1);
 
 
             // If car is not available right now
             if (isCarAvailable != null)
-                return new ErrorResult<Rental>(400, "Car is not available right now.");
+                return new ErrorResult<Rental>(OperationMessages.ErrorTitle, "Car is not available right now.");
 
 
             var entity = _mapper.Map<Rental>(dto);
 
             _rentalDal.Create(entity);
-            return new SuccessResult<Rental>(201, entity);
+            return new CreatedResult<Rental>(OperationMessages.SuccessTitle,OperationMessages.SuccessMessage, entity);
 
         }
 
-        public ICustomResult<Rental> Delete(int id)
+        public IResult<Rental> Delete(int id)
         {
             _rentalDal.Delete(_rentalDal.Get(r => r.Id == id));
-            return new SuccessResult<Rental>(204);
+            return new NoContentResult<Rental>();
         }
 
-        public ICustomResult<Rental> GetById(int id)
+        public IResult<Rental> GetById(int id)
         {
-            return new SuccessResult<Rental>(200, _rentalDal.Get(r => r.Id == id));
+            return new SuccessResult<Rental>(OperationMessages.SuccessTitle,OperationMessages.SuccessTitle, _rentalDal.Get(r => r.Id == id));
         }
 
-        public ICustomResult<List<Rental>> GetAll(Expression<Func<Rental, bool>> filter = null)
+        public IResult<List<Rental>> GetAll(Expression<Func<Rental, bool>> filter = null)
         {
-            return new SuccessResult<List<Rental>>(200, _rentalDal.GetAll(filter));
+            return new SuccessResult<List<Rental>>(OperationMessages.SuccessTitle,OperationMessages.SuccessTitle, _rentalDal.GetAll(filter));
         }
 
-        public ICustomResult<Rental> Update(Rental entity)
+        public IResult<Rental> Update(Rental entity)
         {
             _rentalDal.Update(entity);
-            return new SuccessResult<Rental>(204, entity);
+            return new SuccessResult<Rental>(OperationMessages.SuccessTitle,OperationMessages.SuccessMessage, entity);
         }
 
-        public ICustomResult<List<RentalDetailDto>> GetRentalsWithDetail()
+        public IResult<List<RentalDetailDto>> GetRentalsWithDetail()
         {
-            return new SuccessResult<List<RentalDetailDto>>(200, _rentalDal.GetRentalsWithDetail());
+            return new SuccessResult<List<RentalDetailDto>>(OperationMessages.SuccessTitle,OperationMessages.SuccessTitle, _rentalDal.GetRentalsWithDetail());
         }
 
-        public ICustomResult<RentalDetailDto> GetRentalWithDetail(int rentalId)
+        public IResult<RentalDetailDto> GetRentalWithDetail(int rentalId)
         {
             var data = _rentalDal.GetRentalWithDetail(rentalId);
 
@@ -77,7 +78,7 @@ namespace Business.Concrete
 
             mapped.Price = days * mapped.Car.DailyPrice;
 
-            return new SuccessResult<RentalDetailDto>(200, mapped);
+            return new SuccessResult<RentalDetailDto>(OperationMessages.SuccessTitle,OperationMessages.SuccessTitle, mapped);
         }
     }
 }

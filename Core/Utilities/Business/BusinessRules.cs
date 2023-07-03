@@ -4,8 +4,10 @@ namespace Core.Utilities.Business
 {
     public static class BusinessRules
     {
-        public static ICustomResult<T> Run<T>(params ICustomResult<T>[] rules)
+
+        public static IResult<T> Run<T>(params IResult<T>[] rules)
         {
+
             foreach (var rule in rules)
             {
                 if (!rule.success)

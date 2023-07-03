@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Business.Abstract;
+using Core.Utilities.Messages;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -18,12 +19,12 @@ namespace Business.Concrete
             _mapper = mapper;
         }
 
-        public ICustomResult<Payment> Add(PaymentCreateDto payment)
+        public IResult<Payment> Add(PaymentCreateDto payment)
         {
             var mapped = _mapper.Map<Payment>(payment);
             _paymentDal.Create(mapped);
 
-            return new SuccessResult<Payment>(201);
+            return new SuccessResult<Payment>(OperationMessages.SuccessTitle,OperationMessages.SuccessMessage,mapped);
         }
     }
 }

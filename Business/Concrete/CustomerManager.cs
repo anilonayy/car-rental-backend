@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Utilities.Messages;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -16,38 +17,38 @@ namespace Business.Concrete
             _customerDal = customerDal;
         }
 
-        public ICustomResult<Customer> Create(Customer entity)
+        public IResult<Customer> Create(Customer entity)
         {
             _customerDal.Create(entity);
 
-            return new SuccessResult<Customer>(201, entity);
+            return new CreatedResult<Customer>(OperationMessages.SuccessMessage,OperationMessages.SuccessMessage, entity);
         }
 
-        public ICustomResult<Customer> Delete(int id)
+        public IResult<Customer> Delete(int id)
         {
             _customerDal.Delete(_customerDal.Get(c => c.Id == id));
-            return new SuccessResult<Customer>(204);
+            return new NoContentResult<Customer>();
         }
 
-        public ICustomResult<Customer> GetById(int id)
+        public IResult<Customer> GetById(int id)
         {
-            return new SuccessResult<Customer>(200, _customerDal.Get(c => c.Id == id));
+            return new SuccessResult<Customer>(OperationMessages.SuccessMessage,OperationMessages.SuccessMessage, _customerDal.Get(c => c.Id == id));
         }
 
-        public ICustomResult<List<Customer>> GetAll(Expression<Func<Customer, bool>> filter = null)
+        public IResult<List<Customer>> GetAll(Expression<Func<Customer, bool>> filter = null)
         {
-            return new SuccessResult<List<Customer>>(200, _customerDal.GetAll(filter));
+            return new SuccessResult<List<Customer>>(OperationMessages.SuccessMessage,OperationMessages.SuccessMessage, _customerDal.GetAll(filter));
         }
 
-        public ICustomResult<Customer> Update(Customer entity)
+        public IResult<Customer> Update(Customer entity)
         {
             _customerDal.Update(entity);
-            return new SuccessResult<Customer>(200, entity);
+            return new SuccessResult<Customer>(OperationMessages.SuccessMessage,OperationMessages.SuccessMessage, entity);
         }
 
-        public ICustomResult<List<CustomerDetailDto>> GetCustomersWithDetail()
+        public IResult<List<CustomerDetailDto>> GetCustomersWithDetail()
         {
-            return new SuccessResult<List<CustomerDetailDto>>(200, _customerDal.GetCustomersWithDetail());
+            return new SuccessResult<List<CustomerDetailDto>>(OperationMessages.SuccessMessage,OperationMessages.SuccessMessage, _customerDal.GetCustomersWithDetail());
         }
     }
 }

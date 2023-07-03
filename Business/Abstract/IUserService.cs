@@ -6,8 +6,8 @@ namespace Business.Abstract
 {
     public interface IUserService : IGenericService<User>
     {
-        ICustomResult<User> GetByMail(string email);
-        ICustomResult<List<OperationClaim>> GetClaims(User user);
-        ICustomResult<User> Add(User user);
+        IResult<User> GetByMail(string email);
+        IResult<List<OperationClaim>> GetClaims(User user);
+        IResult<User> Add(User user);
     }
 }

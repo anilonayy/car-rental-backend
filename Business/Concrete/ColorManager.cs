@@ -1,4 +1,7 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Business;
+using Core.Utilities.Messages;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -9,41 +12,73 @@ namespace Business.Concrete
     public class ColorManager : IColorService
     {
         private readonly IColorDal _colorDal;
+        private readonly ICarService _carService;
 
-        public ColorManager(IColorDal colorDal)
+
+
+        public ColorManager(IColorDal colorDal, ICarService carService)
         {
             _colorDal = colorDal;
+            _carService = carService;
         }
 
-        public ICustomResult<Color> Create(Color entity)
+        public IResult<Color> Create(Color entity)
         {
             _colorDal.Create(entity);
 
-            return new SuccessResult<Color>(201, entity);
+            return new CreatedResult<Color>(OperationMessages.SuccessMessage,OperationMessages.SuccessMessage,entity);
         }
 
-        public ICustomResult<Color> Delete(int id)
+        public IResult<Color> Delete(int id)
         {
+            var result = BusinessRules.Run(
+                    ColorHasAnyCar(id)
+            );
+
+            if(! result.success)
+            {
+                return result;
+            }
+
+            
+            
             _colorDal.Delete(_colorDal.Get(c => c.ColorId == id));
 
-            return new SuccessResult<Color>(204);
+            return new NoContentResult<Color>();
         }
 
-        public ICustomResult<Color> GetById(int id)
+        public IResult<Color> GetById(int id)
         {
-            return new SuccessResult<Color>(200, _colorDal.Get(c => c.ColorId == id));
+            return new SuccessResult<Color>(OperationMessages.SuccessTitle, OperationMessages.SuccessMessage, _colorDal.Get(c => c.ColorId == id));
         }
 
-        public ICustomResult<List<Color>> GetAll(Expression<Func<Color, bool>> filter = null)
+        public IResult<List<Color>> GetAll(Expression<Func<Color, bool>> filter = null)
         {
-            return new SuccessResult<List<Color>>(200, _colorDal.GetAll(filter));
+            return new SuccessResult<List<Color>>(OperationMessages.SuccessTitle,OperationMessages.SuccessMessage,_colorDal.GetAll(filter));
         }
 
-        public ICustomResult<Color> Update(Color entity)
+        public IResult<Color> Update(Color entity)
         {
             _colorDal.Update(entity);
 
-            return new SuccessResult<Color>(200, entity);
+            return new SuccessResult<Color>(OperationMessages.SuccessTitle, OperationMessages.SuccessMessage, entity);
+        }
+
+
+
+        private IResult<Color> ColorHasAnyCar(int colorId)
+        {
+            var car = _carService.GetByColorAndBrand(colorId,0);
+
+
+            if (car.data.Count != 0)
+            {
+                return new NoContentResult<Color>();
+            }
+            else
+            {
+                return new ErrorResult<Color>(OperationMessages.ErrorTitle,"This color using by Cars. Please first change car's color.");
+            }
         }
     }
 }

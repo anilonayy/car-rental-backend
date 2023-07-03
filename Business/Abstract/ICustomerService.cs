@@ -7,6 +7,6 @@ namespace Business.Abstract
 {
     public interface ICustomerService : IGenericService<Customer>
     {
-        ICustomResult<List<CustomerDetailDto>> GetCustomersWithDetail();
+        IResult<List<CustomerDetailDto>> GetCustomersWithDetail();
     }
 }

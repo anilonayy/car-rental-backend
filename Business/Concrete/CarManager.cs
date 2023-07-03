@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
+using Core.Utilities.Messages;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -19,55 +20,55 @@ namespace Business.Concrete
 
         }
         [ValidationAspect(typeof(CarValidator))]
-        public ICustomResult<Car> Create(Car entity)
+        public IResult<Car> Create(Car entity)
         {
 
             _carDal.Create(entity);
-            return new SuccessResult<Car>(201, entity);
+            return new CreatedResult<Car>(OperationMessages.SuccessTitle,OperationMessages.SuccessMessage,entity);
 
         }
 
-        public ICustomResult<Car> Delete(int id)
+        public IResult<Car> Delete(int id)
         {
             _carDal.Delete(_carDal.Get(c => c.Id == id));
-            return new SuccessResult<Car>(204);
+            return new NoContentResult<Car>();
         }
 
-        public ICustomResult<Car> Update(Car car)
+        public IResult<Car> Update(Car car)
         {
             _carDal.Update(car);
-            return new SuccessResult<Car>(204);
+            return new SuccessResult<Car>(OperationMessages.SuccessTitle,OperationMessages.SuccessMessage,car);
         }
 
-        public ICustomResult<CarDetailDto> GetById(int id)
+        public IResult<CarDetailDto> GetById(int id)
         {
-            return new SuccessResult<CarDetailDto>(200, _carDal.GetWithDetails(p => p.Id == id).FirstOrDefault());
+            return new SuccessResult<CarDetailDto>(OperationMessages.SuccessTitle,OperationMessages.SuccessMessage, _carDal.GetWithDetails(p => p.Id == id).FirstOrDefault());
         }
 
-        public ICustomResult<List<Car>> GetAll(Expression<Func<Car, bool>> filter = null)
+        public IResult<List<Car>> GetAll(Expression<Func<Car, bool>> filter = null)
         {
             var data = _carDal.GetAll(filter);
-            return new SuccessResult<List<Car>>(200, data);
+            return new SuccessResult<List<Car>>(OperationMessages.SuccessTitle,OperationMessages.SuccessTitle,data);
         }
 
-        public ICustomResult<List<CarDetailDto>> GetCarsByBrandId(int brandId)
+        public IResult<List<CarDetailDto>> GetCarsByBrandId(int brandId)
         {
-            return new SuccessResult<List<CarDetailDto>>(200, _carDal.GetWithDetails(c => c.Brand.BrandId == brandId));
+            return new SuccessResult<List<CarDetailDto>>(OperationMessages.SuccessTitle, OperationMessages.SuccessTitle, _carDal.GetWithDetails(c => c.Brand.BrandId == brandId));
         }
 
-        public ICustomResult<List<CarDetailDto>> GetCarsByColorId(int colorId)
+        public IResult<List<CarDetailDto>> GetCarsByColorId(int colorId)
         {
-            return new SuccessResult<List<CarDetailDto>>(200, _carDal.GetWithDetails(c => c.Color.ColorId == colorId));
+            return new SuccessResult<List<CarDetailDto>>(OperationMessages.SuccessTitle,OperationMessages.SuccessTitle, _carDal.GetWithDetails(c => c.Color.ColorId == colorId));
         }
 
-        public ICustomResult<List<CarDetailDto>> GetWithDetails()
+        public IResult<List<CarDetailDto>> GetWithDetails()
         {
-            return new SuccessResult<List<CarDetailDto>>(200, _carDal.GetWithDetails());
+            return new SuccessResult<List<CarDetailDto>>(OperationMessages.SuccessTitle,OperationMessages.SuccessTitle, _carDal.GetWithDetails());
         }
 
-        public ICustomResult<List<CarDetailDto>> GetByColorAndBrand(int colorId, int brandId)
+        public IResult<List<CarDetailDto>> GetByColorAndBrand(int colorId, int brandId)
         {
-            return new SuccessResult<List<CarDetailDto>>(200, _carDal.GetWithDetailsByFilter(colorId, brandId));
+            return new SuccessResult<List<CarDetailDto>>(OperationMessages.SuccessTitle,OperationMessages.SuccessTitle, _carDal.GetWithDetailsByFilter(colorId, brandId));
         }
     }
 }

@@ -1,27 +1,24 @@
-﻿using System.Text.Json.Serialization;
-
+﻿
 namespace Core.Utilities.Results
 {
-    public class CustomResult<T> : ICustomResult<T>
+    public class CustomResult<T> : IResult<T>
     {
-        public CustomResult(int _statusCode, bool _success)
+        public CustomResult(int status, bool success,string title, string message)
         {
-            statusCode = _statusCode;
-            success = _success;
+            this.title = title;
+            this.status = status;
+            this.success = success;
+            this.message = message;
         }
-
-        public CustomResult(int _statusCode, bool _success, T _data) : this(_statusCode, _success)
+        public CustomResult(int status, bool success,string title,string message, T _data) :this(status, success,title, message)
         {
             data = _data;
         }
 
-        public T data { get; }
-
+        public int status { get; }
         public bool success { get; }
-
-        public List<string> errors { get; set; } = new List<string>();
-
-        [JsonIgnore]
-        public int statusCode { get; }
+        public string title { get; set; }
+        public string message { get; set; }
+        public T? data { get; set; }
     }
 }

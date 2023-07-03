@@ -6,7 +6,7 @@ namespace Business.Abstract
 {
     public interface IPaymentService
     {
-        ICustomResult<Payment> Add(PaymentCreateDto payment);
+        IResult<Payment> Add(PaymentCreateDto payment);
 
     }
 }

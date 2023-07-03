@@ -47,7 +47,7 @@ namespace WebAPI.Controllers
         public IActionResult Delete(int id)
         {
             var result = _brandService.Delete(id);
-            return CreateResponse<Brand>(result);
+            return CreateResponse(result);
         }
     }
 }

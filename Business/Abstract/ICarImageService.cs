@@ -7,11 +7,11 @@ namespace Business.Abstract
 {
     public interface ICarImageService
     {
-        ICustomResult<List<CarImage>> GetAll(Expression<Func<CarImage, bool>> filter = null);
-        ICustomResult<CarImage> GetById(int id);
-        Task<ICustomResult<CarImage>> CreateAsync(CarImageAddDto entity);
-        Task<ICustomResult<CarImage>> Delete(int id);
-        Task<ICustomResult<CarImage>> UpdateAsync(CarImageUpdateDto dto);
-        Task<ICustomResult<List<CarImage>>> GetImagesByCarId(int carId);
+        IResult<List<CarImage>> GetAll(Expression<Func<CarImage, bool>> filter = null);
+        IResult<CarImage> GetById(int id);
+        Task<IResult<CarImage>> CreateAsync(CarImageAddDto entity);
+        Task<IResult<CarImage>> Delete(int id);
+        Task<IResult<CarImage>> UpdateAsync(CarImageUpdateDto dto);
+        Task<IResult<List<CarImage>>> GetImagesByCarId(int carId);
     }
 }

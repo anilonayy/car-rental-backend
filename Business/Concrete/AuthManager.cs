@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Core.Entities.Concrete;
+using Core.Utilities.Messages;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Hashing;
 using Core.Utilities.Security.JWT;
@@ -19,30 +20,30 @@ namespace Business.Concrete
             _tokenHelper = tokenHelper;
         }
 
-        public ICustomResult<AccessToken> CreateAccessToken(User user)
+        public IResult<AccessToken> CreateAccessToken(User user)
         {
             var claims = _userService.GetClaims(user).data;
             var accessToken = _tokenHelper.CreateToken(user, claims);
-            return new SuccessResult<AccessToken>(200, accessToken);
+            return new SuccessResult<AccessToken>(OperationMessages.SuccessTitle,OperationMessages.SuccessMessage ,accessToken);
         }
 
-        public ICustomResult<User> Login(UserLoginDto userLoginDto)
+        public IResult<User> Login(UserLoginDto userLoginDto)
         {
             var userToCheck = _userService.GetByMail(userLoginDto.Email).data;
             if (userToCheck == null)
             {
-                return new ErrorResult<User>(404, Messages.UserNotFound);
+                return new ErrorResult<User>(OperationMessages.SuccessTitle,Messages.UserNotFound);
             }
 
             if (!HashingHelper.VerifyPasswordHash(userLoginDto.Password, userToCheck.PasswordHash, userToCheck.PasswordSalt))
             {
-                return new ErrorResult<User>(400, Messages.PasswordError);
+                return new ErrorResult<User>(OperationMessages.ErrorTitle, Messages.PasswordError);
             }
 
-            return new SuccessResult<User>(200, userToCheck);
+            return new SuccessResult<User>(OperationMessages.SuccessTitle,OperationMessages.SuccessMessage, userToCheck);
         }
 
-        public ICustomResult<User> Register(UserRegisterDto userRegisterDto)
+        public IResult<User> Register(UserRegisterDto userRegisterDto)
         {
             byte[] passwordHash, passwordSalt;
             HashingHelper.HashPassword(userRegisterDto.Password, out passwordHash, out passwordSalt);
@@ -58,20 +59,20 @@ namespace Business.Concrete
             };
             _userService.Create(user);
 
-            return new SuccessResult<User>(201, user);
+            return new SuccessResult<User>(OperationMessages.SuccessTitle, OperationMessages.SuccessMessage, user);
         }
 
-        public ICustomResult<User> UserExists(string email)
+        public IResult<User> UserExists(string email)
         {
             var result = _userService.GetByMail(email);
 
             if (result.success)
             {
-                return new ErrorResult<User>(400, Messages.UserAlreadyExists);
+                return new ErrorResult<User>(OperationMessages.ErrorTitle, Messages.UserAlreadyExists);
             }
             else
             {
-                return new SuccessResult<User>(200);
+                return new NoContentResult<User>();
             }
 
         }

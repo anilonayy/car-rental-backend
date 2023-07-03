@@ -5,10 +5,10 @@ namespace Core.Business
 {
     public interface IGenericService<TEntity> where TEntity : class, new()
     {
-        ICustomResult<List<TEntity>> GetAll(Expression<Func<TEntity, bool>> filter = null);
-        ICustomResult<TEntity> GetById(int id);
-        ICustomResult<TEntity> Create(TEntity entity);
-        ICustomResult<TEntity> Update(TEntity entity);
-        ICustomResult<TEntity> Delete(int id);
+        IResult<List<TEntity>> GetAll(Expression<Func<TEntity, bool>> filter = null);
+        IResult<TEntity> GetById(int id);
+        IResult<TEntity> Create(TEntity entity);
+        IResult<TEntity> Update(TEntity entity);
+        IResult<TEntity> Delete(int id);
     }
 }

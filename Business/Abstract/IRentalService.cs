@@ -7,14 +7,14 @@ namespace Business.Abstract
 {
     public interface IRentalService
     {
-        ICustomResult<Rental> Update(Rental entity);
-        ICustomResult<List<Rental>> GetAll(Expression<Func<Rental, bool>> filter = null);
-        ICustomResult<Rental> GetById(int id);
-        ICustomResult<Rental> Delete(int id);
-        ICustomResult<Rental> Create(RentalCreateDto entity);
+        IResult<Rental> Update(Rental entity);
+        IResult<List<Rental>> GetAll(Expression<Func<Rental, bool>> filter = null);
+        IResult<Rental> GetById(int id);
+        IResult<Rental> Delete(int id);
+        IResult<Rental> Create(RentalCreateDto entity);
 
 
-        ICustomResult<List<RentalDetailDto>> GetRentalsWithDetail();
-        ICustomResult<RentalDetailDto> GetRentalWithDetail(int rentalId);
+        IResult<List<RentalDetailDto>> GetRentalsWithDetail();
+        IResult<RentalDetailDto> GetRentalWithDetail(int rentalId);
     }
 }

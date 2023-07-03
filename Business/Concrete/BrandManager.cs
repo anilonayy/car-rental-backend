@@ -1,5 +1,8 @@
 ﻿using Business.Abstract;
 using Core.Aspects.Autofac.Perfomance;
+using Core.Utilities.Business;
+using Core.Utilities.Exceptions;
+using Core.Utilities.Messages;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -10,40 +13,67 @@ namespace Business.Concrete
     public class BrandManager : IBrandService
     {
         private readonly IBrandDal _brandDal;
+        private readonly ICarService _carService;
 
-        public BrandManager(IBrandDal brandDal)
+        public BrandManager(IBrandDal brandDal, ICarService carService)
         {
             _brandDal = brandDal;
+            _carService = carService;
         }
 
         [PerformanceAspect(5)]
-        public ICustomResult<Brand> Create(Brand entity)
+        public IResult<Brand> Create(Brand entity)
         {
             _brandDal.Create(entity);
 
-            return new SuccessResult<Brand>(201, entity);
+            return new CreatedResult<Brand>(OperationMessages.SuccessTitle, OperationMessages.SuccessMessage, entity);
         }
 
-        public ICustomResult<Brand> Delete(int id)
+        public IResult<Brand> Delete(int id)
         {
+
+            var result = BusinessRules.Run(
+                    BrandHasAnyCar(id)
+            );
+
+            if (result != null)
+                return result;
+
+
             _brandDal.Delete(_brandDal.Get(b => b.BrandId == id));
-            return new SuccessResult<Brand>(204);
+            return new NoContentResult<Brand>();
         }
 
-        public ICustomResult<Brand> GetById(int id)
+        public IResult<Brand> GetById(int id)
         {
-            return new SuccessResult<Brand>(200, _brandDal.Get(b => b.BrandId == id));
+            return new SuccessResult<Brand>(OperationMessages.SuccessTitle, OperationMessages.SuccessMessage, _brandDal.Get(b => b.BrandId == id));
         }
 
-        public ICustomResult<List<Brand>> GetAll(Expression<Func<Brand, bool>> filter = null)
+        public IResult<List<Brand>> GetAll(Expression<Func<Brand, bool>> filter = null)
         {
-            return new SuccessResult<List<Brand>>(200, _brandDal.GetAll(filter));
+            return new SuccessResult<List<Brand>>(OperationMessages.SuccessTitle, OperationMessages.SuccessMessage, _brandDal.GetAll(filter));
         }
 
-        public ICustomResult<Brand> Update(Brand entity)
+        public IResult<Brand> Update(Brand entity)
         {
             _brandDal.Update(entity);
-            return new SuccessResult<Brand>(200, entity);
+            return new SuccessResult<Brand>(OperationMessages.SuccessTitle, OperationMessages.SuccessMessage, entity);
+        }
+
+
+        private IResult<Brand> BrandHasAnyCar(int brandId)
+        {
+            var car = _carService.GetByColorAndBrand(brandId, 0);
+
+            if (car.data.Count == 0)
+            {
+                return new NoContentResult<Brand>();
+            }
+            else
+            {
+                return new ErrorResult<Brand>(OperationMessages.ErrorTitle, "There is a car of this brand. Please remove the dependencies.");
+            }
         }
     }
 }
+

@@ -18,9 +18,10 @@ namespace WebAPI.Controllers
         public ActionResult Login(UserLoginDto userForLoginDto)
         {
             var userToLogin = _authService.Login(userForLoginDto);
+
             if (!userToLogin.success)
             {
-                return BadRequest(userToLogin.errors);
+                return BadRequest(userToLogin);
             }
 
             var result = _authService.CreateAccessToken(userToLogin.data);
@@ -29,7 +30,7 @@ namespace WebAPI.Controllers
                 return Ok(result.data);
             }
 
-            return BadRequest(result.errors);
+            return BadRequest(userToLogin);
         }
 
         [HttpPost("register")]
@@ -38,7 +39,7 @@ namespace WebAPI.Controllers
             var userExists = _authService.UserExists(userForRegisterDto.Email);
             if (!userExists.success)
             {
-                return BadRequest(userExists.errors);
+                return BadRequest(userExists);
             }
 
             var registerResult = _authService.Register(userForRegisterDto);
@@ -48,7 +49,7 @@ namespace WebAPI.Controllers
                 return Ok(result.data);
             }
 
-            return BadRequest(result.errors);
+            return BadRequest(result);
         }
     }
 }

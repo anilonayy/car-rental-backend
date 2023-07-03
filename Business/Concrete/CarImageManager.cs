@@ -3,6 +3,7 @@ using Business.Constants;
 using Core.Utilities.Business;
 using Core.Utilities.FileTools;
 using Core.Utilities.Functions;
+using Core.Utilities.Messages;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -22,7 +23,7 @@ namespace Business.Concrete
             _uriFunctions = uriFunctions;
         }
 
-        public async Task<ICustomResult<CarImage>> CreateAsync(CarImageAddDto dto)
+        public async Task<IResult<CarImage>> CreateAsync(CarImageAddDto dto)
         {
             var ruleResult = BusinessRules.Run(IsMaximumPhotoCount(dto.CarId));
 
@@ -45,32 +46,32 @@ namespace Business.Concrete
 
                 _carImageDal.Create(entity);
 
-                return new SuccessResult<CarImage>(201, entity);
+                return new SuccessResult<CarImage>(OperationMessages.SuccessMessage, OperationMessages.SuccessMessage, entity);
             }
         }
 
 
-        public async Task<ICustomResult<CarImage>> Delete(int id)
+        public async Task<IResult<CarImage>> Delete(int id)
         {
             var image = _carImageDal.Get(c => c.Id == id);
 
             _carImageDal.Delete(image);
             await FileOperations.DeleteAsync(image.ImagePath);
 
-            return new SuccessResult<CarImage>(204);
+            return new NoContentResult<CarImage>();
         }
 
-        public ICustomResult<List<CarImage>> GetAll(Expression<Func<CarImage, bool>> filter = null)
+        public IResult<List<CarImage>> GetAll(Expression<Func<CarImage, bool>> filter = null)
         {
-            return new SuccessResult<List<CarImage>>(200, _carImageDal.GetAll(filter));
+            return new SuccessResult<List<CarImage>>(OperationMessages.SuccessMessage, OperationMessages.SuccessMessage, _carImageDal.GetAll(filter));
         }
 
-        public ICustomResult<CarImage> GetById(int id)
+        public IResult<CarImage> GetById(int id)
         {
-            return new SuccessResult<CarImage>(200, _carImageDal.Get(c => c.Id == id));
+            return new SuccessResult<CarImage>(OperationMessages.SuccessMessage, OperationMessages.SuccessMessage, _carImageDal.Get(c => c.Id == id));
         }
 
-        public async Task<ICustomResult<List<CarImage>>> GetImagesByCarId(int carId)
+        public async Task<IResult<List<CarImage>>> GetImagesByCarId(int carId)
         {
             var images = _carImageDal.GetByCar(carId);
 
@@ -81,10 +82,10 @@ namespace Business.Concrete
             }
 
 
-            return new SuccessResult<List<CarImage>>(200, images);
+            return new SuccessResult<List<CarImage>>(OperationMessages.SuccessMessage, OperationMessages.SuccessMessage, images);
         }
 
-        public async Task<ICustomResult<CarImage>> UpdateAsync(CarImageUpdateDto dto)
+        public async Task<IResult<CarImage>> UpdateAsync(CarImageUpdateDto dto)
         {
             var target = _carImageDal.Get(x => x.Id == dto.Id);
 
@@ -98,19 +99,19 @@ namespace Business.Concrete
             _carImageDal.Update(target);
 
 
-            return new SuccessResult<CarImage>(200, target);
+            return new SuccessResult<CarImage>(OperationMessages.SuccessMessage, OperationMessages.SuccessMessage, target);
         }
 
 
-        private ICustomResult<CarImage> IsMaximumPhotoCount(int carId)
+        private IResult<CarImage> IsMaximumPhotoCount(int carId)
         {
             var result = _carImageDal.GetAll(x => x.CarId == carId).Count >= 5;
 
             if (result)
             {
-                return new ErrorResult<CarImage>(400, Messages.CarImageMaximumLengthError);
+                return new ErrorResult<CarImage>(OperationMessages.ErrorTitle,Messages.CarImageMaximumLengthError);
             }
-            return new SuccessResult<CarImage>(200);
+            return new SuccessResult<CarImage>(OperationMessages.SuccessMessage, OperationMessages.SuccessMessage);
         }
     }
 }

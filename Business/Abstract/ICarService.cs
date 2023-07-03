@@ -6,15 +6,15 @@ namespace Business.Abstract
 {
     public interface ICarService
     {
-        ICustomResult<List<CarDetailDto>> GetCarsByBrandId(int brandId);
-        ICustomResult<List<CarDetailDto>> GetCarsByColorId(int colorId);
-        ICustomResult<List<CarDetailDto>> GetWithDetails();
+        IResult<List<CarDetailDto>> GetCarsByBrandId(int brandId);
+        IResult<List<CarDetailDto>> GetCarsByColorId(int colorId);
+        IResult<List<CarDetailDto>> GetWithDetails();
 
-        ICustomResult<CarDetailDto> GetById(int carId);
-        ICustomResult<Car> Create(Car car);
-        ICustomResult<Car> Update(Car car);
-        ICustomResult<Car> Delete(int id);
-        ICustomResult<List<CarDetailDto>> GetByColorAndBrand(int colorId, int brandId);
+        IResult<CarDetailDto> GetById(int carId);
+        IResult<Car> Create(Car car);
+        IResult<Car> Update(Car car);
+        IResult<Car> Delete(int id);
+        IResult<List<CarDetailDto>> GetByColorAndBrand(int colorId, int brandId);
     }
 
 

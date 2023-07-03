@@ -2,10 +2,10 @@
 {
     public class SuccessResult<T> : CustomResult<T>
     {
-        public SuccessResult(int statusCode, T data) : base(statusCode, true, data)
+        public SuccessResult(string title,string message,T data) : base(200, true,title, message,data)
         {
         }
-        public SuccessResult(int statusCode) : base(statusCode, true)
+        public SuccessResult(string title ,string message) : base(200, true,title, message)
         {
         }
     }

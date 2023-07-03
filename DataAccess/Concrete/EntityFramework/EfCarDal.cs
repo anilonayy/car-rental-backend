@@ -78,17 +78,7 @@ namespace DataAccess.Concrete.EntityFramework
                     query = query.Where(c => c.Brand.BrandId == brandId);
                 }
 
-                var data = query.ToList();
-
-
-                if (data.Count == 0)
-                {
-                    throw new NotFoundException($"There is no car for this parameters. ");
-                }
-                else
-                {
-                    return data;
-                }
+                return query.ToList();
             }
         }
     }
