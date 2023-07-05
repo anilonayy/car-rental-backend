@@ -2,6 +2,7 @@
 using Business.Constants;
 using Core.Aspects.Autofac.Transaction;
 using Core.Utilities.Business;
+using Core.Utilities.Exceptions;
 using Core.Utilities.FileTools;
 using Core.Utilities.Functions;
 using Core.Utilities.Messages;
@@ -26,7 +27,7 @@ namespace Business.Concrete
 
         public async Task<IResult<CarImage>> CreateAsync(CarImageAddDto dto)
         {
-            var ruleResult = BusinessRules.Run(IsMaximumPhotoCount(dto.CarId));
+            var ruleResult = BusinessRules.Run(IsMaximumPhotoCount(dto.CarId,1));
 
             if (ruleResult != null)
             {
@@ -39,13 +40,16 @@ namespace Business.Concrete
                 var entity = new CarImage
                 {
                     CarId = dto.CarId,
-                    ImagePath = result,
+                    ImagePath =  result,
                     Date = DateTime.Now,
                     Id = dto.Id
                 };
 
 
                 _carImageDal.Create(entity);
+
+                entity.ImagePath += _uriFunctions.GetHostUrl();
+
 
                 return new SuccessResult<CarImage>(OperationMessages.SuccessTitle, OperationMessages.SuccessMessage, entity);
             }
@@ -54,7 +58,7 @@ namespace Business.Concrete
         [TransactionScopeAspect]
         public async Task<IResult<List<CarImage>>> CreateRangeAsync(CarImageRangeDto dto)
         {
-            var ruleResult = BusinessRules.Run(IsMaximumPhotoCount(dto.CarId));
+            var ruleResult = BusinessRules.Run(IsMaximumPhotoCount(dto.CarId,dto.ImageFiles.Count));
 
             String result = "";
             CarImage entity = new CarImage();
@@ -63,7 +67,7 @@ namespace Business.Concrete
 
             if (ruleResult != null)
             {
-                return (IResult<List<CarImage>>)ruleResult;
+                throw new ClientSideException(ruleResult.message);
             }
             else
             {
@@ -73,13 +77,14 @@ namespace Business.Concrete
                      entity = new CarImage
                     {
                         CarId = dto.CarId,
-                        ImagePath = result,
+                        ImagePath =  result,
                         Date = DateTime.Now,
 
                     };
-                    CarImageList.Add(entity);
 
                     _carImageDal.Create(entity);
+                    entity.ImagePath = _uriFunctions.GetHostUrl() + entity.ImagePath;
+                    CarImageList.Add(entity);
 
                 }
                 return new SuccessResult<List<CarImage>>(OperationMessages.SuccessTitle, OperationMessages.SuccessMessage, CarImageList);
@@ -155,9 +160,9 @@ namespace Business.Concrete
         }
 
 
-        private IResult<CarImage> IsMaximumPhotoCount(int carId)
+        private IResult<CarImage> IsMaximumPhotoCount(int carId,int willAdd)
         {
-            var result = _carImageDal.GetAll(x => x.CarId == carId).Count >= 5;
+            var result = _carImageDal.GetAll(x => x.CarId == carId).Count + willAdd > 5;
 
             if (result)
             {

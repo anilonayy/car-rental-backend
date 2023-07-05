@@ -2,7 +2,7 @@
 {
     public static class Messages
     {
-        public static string CarImageMaximumLengthError = "Bir araca en fazla 5 adet resim yüklenebilir.";
+        public static string CarImageMaximumLengthError = "Only 5 images can upload per car!";
         public static string MaintenanceTime = "Şuanda bakım var!.";
 
         public static string? AuthorizationDenied = "Yetkisiz erişim isteği!";

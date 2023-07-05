@@ -44,6 +44,12 @@ namespace Business.Concrete
 
         public IResult<Car> Update(Car car)
         {
+            var hasAnyCar = _carDal.Get(c => c.Id == car.Id);
+
+            if(hasAnyCar == null)
+            {
+                throw new NotFoundException(OperationMessages.NotFound);
+            }
             _carDal.Update(car);
             return new SuccessResult<Car>(OperationMessages.SuccessTitle,OperationMessages.SuccessMessage,car);
         }
