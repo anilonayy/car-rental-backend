@@ -1,11 +1,10 @@
 ﻿using Core.Entities.Abstract;
-using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Http;
 
 namespace Entities.DTOs.CarDTOs
 {
     public class CarCreateDto : IDto
     {
-        [JsonIgnore]
         public int Id { get; set; }
         public int BrandId { get; set; }
         public int ColorId { get; set; }

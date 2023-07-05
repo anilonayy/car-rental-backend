@@ -28,11 +28,13 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("Add")]
-        public async Task<IActionResult> Add([FromForm] CarImageAddDto dto)
+        public async Task<IActionResult> Add([FromForm] CarImageRangeDto dto)
         {
-            var result = await _CarImageService.CreateAsync(dto);
+            var result = await _CarImageService.CreateRangeAsync(dto);
             return CreateResponse(result);
         }
+       
+
 
         [HttpPut("Update")]
         public async Task<IActionResult> Update([FromForm] CarImageUpdateDto dto)
@@ -48,6 +50,13 @@ namespace WebAPI.Controllers
             return CreateResponse(result);
         }
 
+        [HttpDelete("DeleteByCar")]
+        public async Task<IActionResult> DeleteByCarAsync(int carId)
+        {
+            var result = await _CarImageService.DeleteByCarAsync(carId);
+            return CreateResponse(result);
+
+        }
         [HttpGet("GetImagesByCarId")]
         public async Task<IActionResult> GetImagesByCarId(int carId)
         {

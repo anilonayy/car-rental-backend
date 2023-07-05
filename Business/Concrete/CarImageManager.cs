@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Aspects.Autofac.Transaction;
 using Core.Utilities.Business;
 using Core.Utilities.FileTools;
 using Core.Utilities.Functions;
@@ -46,7 +47,42 @@ namespace Business.Concrete
 
                 _carImageDal.Create(entity);
 
-                return new SuccessResult<CarImage>(OperationMessages.SuccessMessage, OperationMessages.SuccessMessage, entity);
+                return new SuccessResult<CarImage>(OperationMessages.SuccessTitle, OperationMessages.SuccessMessage, entity);
+            }
+        }
+
+        [TransactionScopeAspect]
+        public async Task<IResult<List<CarImage>>> CreateRangeAsync(CarImageRangeDto dto)
+        {
+            var ruleResult = BusinessRules.Run(IsMaximumPhotoCount(dto.CarId));
+
+            String result = "";
+            CarImage entity = new CarImage();
+
+            List<CarImage> CarImageList = new List<CarImage>();
+
+            if (ruleResult != null)
+            {
+                return (IResult<List<CarImage>>)ruleResult;
+            }
+            else
+            {
+                foreach(var photo in dto.ImageFiles)
+                {
+                     result = await FileOperations.UploadAsync(photo, "uploads/car-images/");
+                     entity = new CarImage
+                    {
+                        CarId = dto.CarId,
+                        ImagePath = result,
+                        Date = DateTime.Now,
+
+                    };
+                    CarImageList.Add(entity);
+
+                    _carImageDal.Create(entity);
+
+                }
+                return new SuccessResult<List<CarImage>>(OperationMessages.SuccessTitle, OperationMessages.SuccessMessage, CarImageList);
             }
         }
 
@@ -61,14 +97,30 @@ namespace Business.Concrete
             return new NoContentResult<CarImage>();
         }
 
+        public async Task<IResult<CarImage>> DeleteByCarAsync(int id)
+        {
+            var images = _carImageDal.GetAll(i => i.CarId == id);
+
+            if(images!=null)
+            {
+                foreach(var image in images)
+                {
+                    _carImageDal.Delete(image);
+                    await FileOperations.DeleteAsync(image.ImagePath);
+                }
+            }
+
+            return new SuccessResult<CarImage>(OperationMessages.SuccessTitle,OperationMessages.SuccessMessage);
+        }
+
         public IResult<List<CarImage>> GetAll(Expression<Func<CarImage, bool>> filter = null)
         {
-            return new SuccessResult<List<CarImage>>(OperationMessages.SuccessMessage, OperationMessages.SuccessMessage, _carImageDal.GetAll(filter));
+            return new SuccessResult<List<CarImage>>(OperationMessages.SuccessTitle, OperationMessages.SuccessMessage, _carImageDal.GetAll(filter));
         }
 
         public IResult<CarImage> GetById(int id)
         {
-            return new SuccessResult<CarImage>(OperationMessages.SuccessMessage, OperationMessages.SuccessMessage, _carImageDal.Get(c => c.Id == id));
+            return new SuccessResult<CarImage>(OperationMessages.SuccessTitle, OperationMessages.SuccessMessage, _carImageDal.Get(c => c.Id == id));
         }
 
         public async Task<IResult<List<CarImage>>> GetImagesByCarId(int carId)
@@ -82,7 +134,7 @@ namespace Business.Concrete
             }
 
 
-            return new SuccessResult<List<CarImage>>(OperationMessages.SuccessMessage, OperationMessages.SuccessMessage, images);
+            return new SuccessResult<List<CarImage>>(OperationMessages.SuccessTitle, OperationMessages.SuccessMessage, images);
         }
 
         public async Task<IResult<CarImage>> UpdateAsync(CarImageUpdateDto dto)
@@ -99,7 +151,7 @@ namespace Business.Concrete
             _carImageDal.Update(target);
 
 
-            return new SuccessResult<CarImage>(OperationMessages.SuccessMessage, OperationMessages.SuccessMessage, target);
+            return new SuccessResult<CarImage>(OperationMessages.SuccessTitle, OperationMessages.SuccessMessage, target);
         }
 
 
@@ -111,7 +163,7 @@ namespace Business.Concrete
             {
                 return new ErrorResult<CarImage>(OperationMessages.ErrorTitle,Messages.CarImageMaximumLengthError);
             }
-            return new SuccessResult<CarImage>(OperationMessages.SuccessMessage, OperationMessages.SuccessMessage);
+            return new SuccessResult<CarImage>(OperationMessages.SuccessTitle, OperationMessages.SuccessMessage);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Core.Utilities.Business;
+using Core.Utilities.Exceptions;
 using Core.Utilities.Messages;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -26,7 +27,7 @@ namespace Business.Concrete
         {
             _colorDal.Create(entity);
 
-            return new CreatedResult<Color>(OperationMessages.SuccessMessage,OperationMessages.SuccessMessage,entity);
+            return new CreatedResult<Color>(OperationMessages.SuccessTitle, OperationMessages.SuccessMessage,entity);
         }
 
         public IResult<Color> Delete(int id)
@@ -35,7 +36,7 @@ namespace Business.Concrete
                     ColorHasAnyCar(id)
             );
 
-            if(! result.success)
+            if(result != null)
             {
                 return result;
             }
@@ -71,13 +72,13 @@ namespace Business.Concrete
             var car = _carService.GetByColorAndBrand(colorId,0);
 
 
-            if (car.data.Count != 0)
+            if (car.data.Count == 0)
             {
                 return new NoContentResult<Color>();
             }
             else
             {
-                return new ErrorResult<Color>(OperationMessages.ErrorTitle,"This color using by Cars. Please first change car's color.");
+                throw new ConflictException("This color using by Cars. Please first change car's color.");
             }
         }
     }

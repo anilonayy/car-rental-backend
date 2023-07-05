@@ -53,7 +53,7 @@ namespace Core.Extensions
                 ClientSideException => 400,
                 ValidationException => 400,
                 ConflictException => 409,
-                NotFoundException => 400,
+                NotFoundException => 404,
                 _ => 500
             };
 
@@ -76,7 +76,9 @@ namespace Core.Extensions
 
             else if(
                 e.GetType() == typeof(NotFoundException) ||
-                e.GetType() == typeof(ClientSideException)
+                e.GetType() == typeof(ClientSideException) ||
+                e.GetType() == typeof(ConflictException) ||
+                e.GetType() == typeof(NotFoundException)
                 )
             {
                 message = e.Message;

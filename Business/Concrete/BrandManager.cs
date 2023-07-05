@@ -63,7 +63,7 @@ namespace Business.Concrete
 
         private IResult<Brand> BrandHasAnyCar(int brandId)
         {
-            var car = _carService.GetByColorAndBrand(brandId, 0);
+            var car = _carService.GetByColorAndBrand(0,brandId);
 
             if (car.data.Count == 0)
             {
@@ -71,7 +71,7 @@ namespace Business.Concrete
             }
             else
             {
-                return new ErrorResult<Brand>(OperationMessages.ErrorTitle, "There is a car of this brand. Please remove the dependencies.");
+                throw new ConflictException("There is a car of this brand. Please remove the dependencies.");
             }
         }
     }
