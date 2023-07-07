@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Core.Entities.Concrete;
+using Core.Utilities.Results;
 using Entities.DTOs.UserDTOs;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,16 +23,26 @@ namespace WebAPI.Controllers
 
             if (!userToLogin.success)
             {
-                return BadRequest(userToLogin);
+                return  CreateResponse(userToLogin);
             }
 
             var result = _authService.CreateAccessToken(userToLogin.data);
             if (result.success)
             {
-                return Ok(result.data);
+                var userRes = new UserLoginResponseDto
+                {
+                    Email = userToLogin.data.Email,
+                    FirstName = userToLogin.data.FirstName,
+                    LastName = userToLogin.data.LastName,
+                    Token = result.data.Token,
+                    Expiration = result.data.Expiration
+                };
+
+                var succressResult = new SuccessResult<UserLoginResponseDto>("Success","Logged in",userRes);
+                return CreateResponse(succressResult);
             }
 
-            return BadRequest(userToLogin);
+            return CreateResponse(userToLogin);
         }
 
         [HttpPost("register")]
@@ -46,10 +58,10 @@ namespace WebAPI.Controllers
             var result = _authService.CreateAccessToken(registerResult.data);
             if (result.success)
             {
-                return Ok(result.data);
+                return CreateResponse(result);
             }
 
-            return BadRequest(result);
+            return CreateResponse(result);
         }
     }
 }
